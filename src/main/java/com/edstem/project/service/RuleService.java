@@ -12,9 +12,7 @@ import com.edstem.project.repository.RuleRepository;
 import jakarta.validation.Payload;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
