@@ -14,7 +14,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n\"ruleId\": \"discountForVIP\",\r\n\"description\": \"Apply a 10% discount for VIP customers on their order\",\r\n\"condition\": {\r\n\"type\": \"AND\",\r\n\"clauses\": [\r\n{\r\n\"field\": \"customer.status\",\r\n\"operation\": \"EQUALS\",\r\n\"value\": \"VIP\"\r\n},\r\n{\r\n\"field\": \"order.total\",\r\n\"operation\": \"GREATER_THAN\",\r\n\"value\": 100.00\r\n}\r\n]\r\n},\r\n\"actions\": [\r\n{\r\n\"actionType\": \"DISCOUNT\",\r\n\"discountPercent\": 10\r\n}\r\n]\r\n}",
+					"raw": "{\r\n    \"rule\": {\r\n\"ruleId\": \"discountForVIP\",\r\n\"description\": \"Apply a 10% discount for VIP customers on their order\",\r\n\"condition\": {\r\n\"type\": \"AND\",\r\n\"clauses\": [\r\n{\r\n\"field\": \"customer.status\",\r\n\"operation\": \"EQUALS\",\r\n\"value\": \"VIP\"\r\n},\r\n{\r\n\"field\": \"order.total\",\r\n\"operation\": \"GREATER_THAN\",\r\n\"value\": 100.00\r\n}\r\n]\r\n},\r\n\"actions\": [\r\n{\r\n\"actionType\": \"DISCOUNT\",\r\n\"discountPercent\": 10\r\n}\r\n]\r\n}\r\n}\r\nhas context menu",
 					"options": {
 						"raw": {
 							"language": "json"

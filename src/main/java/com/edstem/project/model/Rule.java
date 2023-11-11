@@ -34,7 +34,7 @@ public class Rule {
 
     private String description;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private Condition condition;
 
     @OneToMany(cascade = CascadeType.ALL)
