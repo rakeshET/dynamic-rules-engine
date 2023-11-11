@@ -40,9 +40,9 @@ public class RuleController {
         return ResponseEntity.ok(response);
     }
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<RuleResponse> deleteRule(@PathVariable Long id) {
-        RuleResponse response = ruleService.deleteRule(id);
-        return ResponseEntity.ok(response);
+    public void deleteRule(@PathVariable Long id) {
+         ruleService.deleteRule(id);
+
     }
 
 
