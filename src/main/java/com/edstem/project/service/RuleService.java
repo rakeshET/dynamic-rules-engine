@@ -10,13 +10,12 @@ import com.edstem.project.model.Condition;
 import com.edstem.project.model.Rule;
 import com.edstem.project.repository.RuleRepository;
 import jakarta.persistence.EntityNotFoundException;
-import jakarta.validation.Payload;
+
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
-import java.lang.reflect.Field;
-import java.util.ArrayList;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -42,7 +41,7 @@ public class RuleService {
             return new RuleResponse("Error", "Failed to create the rule: " + e.getMessage());
         }
     }
-    public RuleResponse deleteRule(Long id) {
+    public void deleteRule(Long id) {
         Rule rule =
                 ruleRepository
                         .findById(id)
@@ -50,13 +49,8 @@ public class RuleService {
                                 () ->
                                         new EntityNotFoundException(
                                                 "Rule not found with id: " + id));
-        try {
             ruleRepository.deleteById(id);
 
-            return new RuleResponse("Success", "Rule deleted successfully");
-        } catch (Exception e) {
-            return new RuleResponse("Error", "Failed to delete the rule: " + e.getMessage());
-        }
     }
 
 
