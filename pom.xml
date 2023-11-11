@@ -12,7 +12,7 @@
 	<artifactId>dynamic-rule-api</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>note-taking-app</name>
-	<description>Application to save notes.</description>
+	<description>ApplicationTests to save notes.</description>
 	<properties>
 		<java.version>17</java.version>
 		<spotless.version>2.38.0</spotless.version>
