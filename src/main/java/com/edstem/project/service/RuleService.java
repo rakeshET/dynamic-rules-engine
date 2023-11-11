@@ -9,6 +9,7 @@ import com.edstem.project.model.Action;
 import com.edstem.project.model.Condition;
 import com.edstem.project.model.Rule;
 import com.edstem.project.repository.RuleRepository;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Payload;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -43,10 +44,29 @@ public class RuleService {
             return new RuleResponse("Error", "Failed to create the rule: " + e.getMessage());
         }
     }
+    public RuleResponse deleteRule(Long id) {
+        Rule rule =
+                ruleRepository
+                        .findById(id)
+                        .orElseThrow(
+                                () ->
+                                        new EntityNotFoundException(
+                                                "Rule not found with id: " + id));
+        try {
+            ruleRepository.deleteById(id);
+
+            return new RuleResponse("Success", "Rule deleted successfully");
+        } catch (Exception e) {
+            return new RuleResponse("Error", "Failed to delete the rule: " + e.getMessage());
+        }
+    }
+
+
     public List<AllRuleResponse> getAllRules() {
         List<Rule> rules = ruleRepository.findAll();
         return rules.stream()
                 .map(rule -> modelMapper.map(rule, AllRuleResponse.class))
                 .collect(Collectors.toList());
     }
+
 }
