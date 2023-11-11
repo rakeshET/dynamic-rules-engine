@@ -12,6 +12,8 @@ import lombok.Setter;
 
 import java.util.List;
 
+import jakarta.persistence.*;
+
 @Entity
 @Getter
 @Setter
@@ -19,6 +21,14 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class Condition {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     private String type;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "condition_id")
     private List<Clause> clauses;
+
 }
