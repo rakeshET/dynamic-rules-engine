@@ -1,6 +1,7 @@
 package com.edstem.project.service;
 
 import com.edstem.project.contract.request.RuleRequest;
+import com.edstem.project.contract.response.AllRuleResponse;
 import com.edstem.project.contract.response.RuleResponse;
 import com.edstem.project.model.Rule;
 import com.edstem.project.repository.RuleRepository;
@@ -9,6 +10,9 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.modelmapper.ModelMapper;
+
+import java.util.Arrays;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
@@ -59,5 +63,19 @@ public class RuleServiceTest {
         verify(ruleRepository, times(1)).save(any(Rule.class));
         assertEquals("Error", response.getStatus());
         assertEquals("Failed to create the rule: Database error", response.getMessage());
+    }
+
+    @Test
+    public void testGetAllRules() {
+        Rule rule1 = new Rule();
+        Rule rule2 = new Rule();
+        List<Rule> rules = Arrays.asList(rule1, rule2);
+
+        when(ruleRepository.findAll()).thenReturn(rules);
+
+        List<AllRuleResponse> responses = ruleService.getAllRules();
+
+        verify(ruleRepository, times(1)).findAll();
+        assertEquals(rules.size(), responses.size());
     }
 }
