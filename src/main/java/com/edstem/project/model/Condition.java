@@ -19,8 +19,6 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class Condition {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private String type;
     private List<Clause> clauses;
 }

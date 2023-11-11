@@ -19,8 +19,6 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class Clause {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private String field;
     private String operation;
     private Object value;
