@@ -17,8 +17,6 @@ import lombok.Setter;
 @AllArgsConstructor
 @Builder
 public class Action {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private String actionType;
     private Object actionValue;
 }
