@@ -34,10 +34,9 @@ public class RuleController {
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping
+    @GetMapping("/all")
     public ResponseEntity<List<AllRuleResponse>> getAllRules() {
-        List<AllRuleResponse> ruleResponses = (List<AllRuleResponse>) ruleService.getAllRules();
-        return ResponseEntity.ok(ruleResponses);
+        List<AllRuleResponse> response = ruleService.getAllRules();
+        return ResponseEntity.ok(response);
     }
-
 }

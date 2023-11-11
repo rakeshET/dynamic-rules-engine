@@ -12,4 +12,5 @@ import lombok.Setter;
 public class RuleResponse {
     private String status;
     private String message;
+
 }
