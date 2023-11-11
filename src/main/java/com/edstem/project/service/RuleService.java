@@ -1,6 +1,7 @@
 package com.edstem.project.service;
 
 import com.edstem.project.contract.request.RuleRequest;
+import com.edstem.project.contract.response.AllRuleResponse;
 import com.edstem.project.contract.response.RuleResponse;
 import com.edstem.project.controller.RuleController;
 import com.edstem.project.exception.CustomException;
@@ -11,11 +12,14 @@ import com.edstem.project.repository.RuleRepository;
 import jakarta.validation.Payload;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -23,6 +27,7 @@ public class RuleService {
 
 
     private final RuleRepository ruleRepository;
+    private final ModelMapper modelMapper;
 
 
     public RuleResponse createRule(RuleRequest request) {
@@ -37,5 +42,11 @@ public class RuleService {
         } catch (Exception e) {
             return new RuleResponse("Error", "Failed to create the rule: " + e.getMessage());
         }
+    }
+    public List<AllRuleResponse> getAllRules() {
+        List<Rule> rules = ruleRepository.findAll();
+        return rules.stream()
+                .map(rule -> modelMapper.map(rule, AllRuleResponse.class))
+                .collect(Collectors.toList());
     }
 }
