@@ -1,0 +1,29 @@
+{
+	"info": {
+		"_postman_id": "e2fa1940-1981-4428-9211-280806406216",
+		"name": "Dynamic Rules",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "28430410",
+		"_collection_link": "https://martian-capsule-417732.postman.co/workspace/New-Team-Workspace~0df16d72-669a-4950-af5c-6491f494dbc9/collection/28430410-e2fa1940-1981-4428-9211-280806406216?action=share&source=collection_link&creator=28430410"
+	},
+	"item": [
+		{
+			"name": "New Request",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"ruleId\": \"discountForVIP\",\r\n\"description\": \"Apply a 10% discount for VIP customers on their order\",\r\n\"condition\": {\r\n\"type\": \"AND\",\r\n\"clauses\": [\r\n{\r\n\"field\": \"customer.status\",\r\n\"operation\": \"EQUALS\",\r\n\"value\": \"VIP\"\r\n},\r\n{\r\n\"field\": \"order.total\",\r\n\"operation\": \"GREATER_THAN\",\r\n\"value\": 100.00\r\n}\r\n]\r\n},\r\n\"actions\": [\r\n{\r\n\"actionType\": \"DISCOUNT\",\r\n\"discountPercent\": 10\r\n}\r\n]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/v1/rules/create"
+			},
+			"response": []
+		}
+	]
+}
