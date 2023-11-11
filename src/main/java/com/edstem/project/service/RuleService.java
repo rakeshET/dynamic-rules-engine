@@ -3,6 +3,7 @@ package com.edstem.project.service;
 import com.edstem.project.contract.request.RuleRequest;
 import com.edstem.project.contract.response.RuleResponse;
 import com.edstem.project.controller.RuleController;
+import com.edstem.project.exception.CustomException;
 import com.edstem.project.model.Action;
 import com.edstem.project.model.Condition;
 import com.edstem.project.model.Rule;
@@ -19,31 +20,22 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class RuleService {
+
+
     private final RuleRepository ruleRepository;
-    private final ModelMapper modelMapper;
 
-    public RuleResponse createRule(RuleRequest rule) {
-        // Validate rule
-        if (rule == null) {
-            throw new IllegalArgumentException("Rule cannot be null");
+
+    public RuleResponse createRule(RuleRequest request) {
+        try {
+            ModelMapper modelMapper = new ModelMapper();
+
+            Rule rule = modelMapper.map(request.getRule(), Rule.class);
+
+            ruleRepository.save(rule);
+
+            return new RuleResponse("Success", "Rule created successfully");
+        } catch (Exception e) {
+            return new RuleResponse("Error", "Failed to create the rule: " + e.getMessage());
         }
-
-        // Validate ruleId
-        if (rule.getId() == null || rule.Id().isEmpty()) {
-            throw new IllegalArgumentException("Rule ID cannot be null or empty");
-        }
-
-        // Validate condition
-        if (rule.getCondition() == null) {
-            throw new IllegalArgumentException("Condition cannot be null");
-        }
-
-        // Validate actions
-        if (rule.getActions() == null || rule.getActions().isEmpty()) {
-            throw new IllegalArgumentException("Actions cannot be null or empty");
-        }
-
-        // Save and return the rule
-        return ruleRepository.save(rule);
     }
 }

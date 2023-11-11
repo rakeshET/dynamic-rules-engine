@@ -1,5 +1,6 @@
 package com.edstem.project.model;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -19,7 +20,12 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class Clause {
-    private String field;
-    private String operation;
-    private Object value;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(name = "clause_text")
+    private String clauseText;
+
 }
+

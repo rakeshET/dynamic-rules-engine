@@ -1,5 +1,6 @@
 package com.edstem.project.model;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -10,6 +11,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+
 @Entity
 @Getter
 @Setter
@@ -17,6 +19,14 @@ import lombok.Setter;
 @AllArgsConstructor
 @Builder
 public class Action {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Long id;
+
+    @Column(name = "action_type")
     private String actionType;
-    private Object actionValue;
+
+    private String actionValue;
+
 }
