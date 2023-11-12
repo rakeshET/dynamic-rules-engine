@@ -5,12 +5,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+@AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
-@NoArgsConstructor
-@AllArgsConstructor
-public class RuleResponse {
-    private String status;
+public class EvaluationResponse {
     private String message;
+
 
 }

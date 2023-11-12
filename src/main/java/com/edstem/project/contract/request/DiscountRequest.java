@@ -1,4 +1,4 @@
-package com.edstem.project.contract.response;
+package com.edstem.project.contract.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,8 +9,8 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class RuleResponse {
-    private String status;
-    private String message;
-
+public class DiscountRequest {
+    private String orderId;
+    private Customer customer;
+    private Order order;
 }
