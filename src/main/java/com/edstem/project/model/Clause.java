@@ -24,8 +24,9 @@ public class Clause {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "clause_text")
-    private String clauseText;
+    private String field;
+    private String operation;
+    private Double value;
 
 }
 
