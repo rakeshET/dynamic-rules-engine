@@ -5,6 +5,8 @@ import com.edstem.project.contract.response.RuleResponse;
 import com.edstem.project.service.RuleService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -18,10 +20,13 @@ import static org.mockito.Mockito.when;
 public class RuleControllerTest {
     @Autowired
     private MockMvc mockMvc;
-    @MockBean
+
+    @Mock
     private RuleService ruleService;
 
-    @Autowired ObjectMapper mapper = new ObjectMapper();
+    @InjectMocks
+    private RuleController RuleController;
+
 
 
 }

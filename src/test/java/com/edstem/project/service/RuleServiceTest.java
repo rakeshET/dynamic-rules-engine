@@ -5,6 +5,7 @@ import com.edstem.project.contract.response.AllRuleResponse;
 import com.edstem.project.contract.response.RuleResponse;
 import com.edstem.project.model.Rule;
 import com.edstem.project.repository.RuleRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -13,9 +14,13 @@ import org.modelmapper.ModelMapper;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -77,5 +82,24 @@ public class RuleServiceTest {
 
         verify(ruleRepository, times(1)).findAll();
         assertEquals(rules.size(), responses.size());
+    }
+    @Test
+    void testDeleteRule_SuccessfulDeletion() {
+
+        Long ruleId = 1L;
+        when(ruleRepository.findById(ruleId)).thenReturn(Optional.of(new Rule()));
+        ruleService.deleteRule(ruleId);
+        verify(ruleRepository, times(1)).deleteById(ruleId);
+    }
+    @Test
+    void testDeleteRule_RuleNotFound() {
+
+        Long ruleId = 1L;
+        when(ruleRepository.findById(ruleId)).thenReturn(Optional.empty());
+        EntityNotFoundException exception = assertThrows(EntityNotFoundException.class, () ->
+                ruleService.deleteRule(ruleId)
+        );
+        assertEquals("Rule not found with id: " + ruleId, exception.getMessage());
+        verify(ruleRepository, never()).deleteById(anyLong());
     }
 }
