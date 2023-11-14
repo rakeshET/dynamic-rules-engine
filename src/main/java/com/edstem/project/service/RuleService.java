@@ -1,5 +1,6 @@
 package com.edstem.project.service;
 
+import com.edstem.project.contract.request.Payload;
 import com.edstem.project.contract.request.RuleAction;
 import com.edstem.project.contract.request.RuleClauses;
 import com.edstem.project.contract.request.RuleRequest;
@@ -20,6 +21,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -47,6 +49,47 @@ public class RuleService {
         return rules.stream()
                 .map(rule -> convertToAllRuleResponse(rule))
                 .collect(Collectors.toList());
+    }
+
+    public RuleResponse updateRule(Long ruleId, RuleRequest request) {
+        try {
+            Optional<Rule> optionalRule = ruleRepository.findById(ruleId);
+
+            if (optionalRule.isPresent()) {
+                Rule rule = optionalRule.get();
+                rule.setDescription(request.getDescription());
+                Condition condition = rule.getCondition();
+                condition.setType(request.getCondition().getType());
+
+                List<Clause> clauses = new ArrayList<>();
+                for (RuleClauses clause : request.getCondition().getClauses()) {
+                    Clause clause1 = new Clause();
+                    clause1.setField(clause.getField());
+                    clause1.setOperation(clause.getOperation());
+                    clause1.setValue(clause.getValue());
+                    clauses.add(clause1);
+                }
+                condition.setClauses(clauses);
+
+                List<Action> actions = new ArrayList<>();
+                for (RuleAction actionRequest : request.getActions()) {
+                    Action action = new Action();
+                    action.setActionType(actionRequest.getActionType());
+                    action.setActionValue(actionRequest.getActionValue());
+                    actions.add(action);
+                }
+                rule.setActions(actions);
+
+
+                ruleRepository.save(rule);
+
+                return new RuleResponse("Success", "Rule updated successfully");
+            } else {
+                return new RuleResponse("Error", "Rule not found with ID: " + ruleId);
+            }
+        } catch (Exception e) {
+            return new RuleResponse("Error", "Failed to update the rule: " + e.getMessage());
+        }
     }
 
     private AllRuleResponse convertToAllRuleResponse(Rule rule) {
