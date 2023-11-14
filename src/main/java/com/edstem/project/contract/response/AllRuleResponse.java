@@ -1,5 +1,7 @@
 package com.edstem.project.contract.response;
 
+import com.edstem.project.contract.request.RuleAction;
+import com.edstem.project.contract.request.RuleCondition;
 import com.edstem.project.model.Action;
 import com.edstem.project.model.Rule;
 import lombok.AllArgsConstructor;
@@ -13,10 +15,9 @@ import java.util.List;
 @Setter
 public class AllRuleResponse {
     private Long id;
-    private String message;
+//    private String message;
     private String ruleId;
     private String description;
-    private String conditionType;
-    private List<Action> actions;
-
+    private RuleCondition conditionType;
+    private List<RuleAction> actions;
 }
