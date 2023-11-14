@@ -41,7 +41,9 @@ public class RuleService {
             rule.setRuleId(request.getRuleId());
             rule.setDescription(request.getDescription());
             Condition condition = new Condition();
-            condition.setType(request.getConditionType().getType());
+            if (request.getConditionType() != null) {
+                condition.setType(request.getConditionType().getType());
+            }
             rule.setCondition(condition);
 
             List<Action> actions = new ArrayList<>();
