@@ -12,9 +12,10 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class RuleRequest {
+    private  long id;
     private String ruleId;
     private String description;
-    private RuleCondition conditionType;
+    private RuleCondition condition;
     private List<RuleAction> actions;
 
 }

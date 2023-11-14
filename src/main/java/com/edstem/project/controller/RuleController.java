@@ -17,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
@@ -46,20 +47,8 @@ public class RuleController {
         return ResponseEntity.ok(response);
     }
 
-//    @PostMapping("/check")
-//    public ResponseEntity<EvaluationResponse> evaluateRule(@RequestBody Payload payload) {
-//        try {
-//            boolean isRuleValid = (boolean) ruleService.evaluateRule(payload);
-//            if (isRuleValid) {
-//                EvaluationResponse Response = new EvaluationResponse("Rule is valid");
-//                return new ResponseEntity<>(Response, HttpStatus.OK);
-//            } else {
-//                EvaluationResponse Response = new EvaluationResponse("Rule is not valid");
-//                return new ResponseEntity<>(Response, HttpStatus.BAD_REQUEST);
-//            }
-//        } catch (IllegalArgumentException e) {
-//            EvaluationResponse ruleResponse = new EvaluationResponse(e.getMessage());
-//            return new ResponseEntity<>(ruleResponse, HttpStatus.BAD_REQUEST);
-//        }
-//    }
+    @PostMapping("/evaluate")
+    public Object evaluateRules(@RequestBody Map<String, Object> inputData) {
+        return ruleService.evaluateRules(inputData);
+    }
 }
