@@ -70,34 +70,30 @@ public class RuleService {
     }
 
 
-
     public void deleteRule(Long id) {
         ruleRepository.findById(id)
-                        .orElseThrow(() -> new EntityNotFoundException("Rule not found with id: " + id));
-            ruleRepository.deleteById(id);
+                .orElseThrow(() -> new EntityNotFoundException("Rule not found with id: " + id));
+        ruleRepository.deleteById(id);
 
     }
 
 
-
-
     public Object evaluateRules(Map<String, Object> inputData) {
         List<Rule> allRules = ruleRepository.findAll();
-        Object response=new Object();
+        Object response = new Object();
         List<Rule> matchedRules = new ArrayList<>();
 
         for (Rule rule : allRules) {
             if (evaluateRule(rule, inputData)) {
-                 response=evaluateAction(rule.getActions(),inputData);
+                response = evaluateAction(rule.getActions(), inputData);
 
-                 break;
+                break;
 
             }
         }
 
         return response;
     }
-
 
 
     private boolean evaluateRule(Rule rule, Map<String, Object> inputData) {
@@ -128,20 +124,22 @@ public class RuleService {
             return true;
         } else if ("OR".equals(condition.getType())) {
             for (Clause clause : condition.getClauses()) {
-                if (clause!=null){
-                if (evaluateClause(clause,inputData)) {
-                    return true;
-                }}
+                if (clause != null) {
+                    if (evaluateClause(clause, inputData)) {
+                        return true;
+                    }
+                }
             }
             return false;
 
 
-        } else if(condition.getType() == null){
+        } else if (condition.getType() == null) {
             for (Clause clause : condition.getClauses()) {
-                if (clause!=null){
-                if (evaluateClause(clause,inputData)) {
-                    return true;
-                }}
+                if (clause != null) {
+                    if (evaluateClause(clause, inputData)) {
+                        return true;
+                    }
+                }
             }
             return true;
         }
@@ -164,7 +162,7 @@ public class RuleService {
             case "EQUALS":
                 return value.equals(actualValue);
             case "GREATER_THAN":
-                return Double.parseDouble(value) < Double.parseDouble(actualValue.toString()) ;
+                return Double.parseDouble(value) < Double.parseDouble(actualValue.toString());
             case "LESS_THAN":
                 return Double.parseDouble(value) > Double.parseDouble(actualValue.toString());
             case "GREATER_THAN_EQUAL":
@@ -204,11 +202,11 @@ public class RuleService {
                 case "FLAG_FOR_REVIEW":
                     return evaluateFlagForReview(action, inputData);
                 case "REPLENISH_STOCK":
-                    if(inputData.containsKey("product")){
+                    if (inputData.containsKey("product")) {
                         return evaluateReplenishStock(action, inputData);
                     }
                 case "RENEW_MEMBERSHIP":
-                    if(inputData.containsKey("customer")){
+                    if (inputData.containsKey("customer")) {
                         return renewMemberShip(action, inputData);
                     }
 
@@ -221,25 +219,24 @@ public class RuleService {
 
     private Object evaluateDiscount(Action action, Map<String, Object> inputData) {
         Map<String, Object> order = (Map<String, Object>) inputData.get("order");
-        Double orderTotal = (Double)  order.get("total");
-        String orderId=(String) inputData.get("orderId");
-        double discountAmount=orderTotal - (orderTotal * (action.getActionValue()) / 100);
+        Double orderTotal = (Double) order.get("total");
+        String orderId = (String) inputData.get("orderId");
+        double discountAmount = orderTotal - (orderTotal * (action.getActionValue()) / 100);
         return new DiscountResponse(orderId, discountAmount);
     }
 
     private FraudDetectionResponse evaluateFlagForReview(Action action, Map<String, Object> inputData) {
-        String orderId=(String) inputData.get("orderId");
+        String orderId = (String) inputData.get("orderId");
         Map<String, Object> order = (Map<String, Object>) inputData.get("order");
-        Double amount=(Double) order.get("amount");
+        Double amount = (Double) order.get("amount");
         return new FraudDetectionResponse(orderId, amount, true);
     }
 
     private Object evaluateReplenishStock(Action action, Map<String, Object> inputData) {
         Map<String, Object> product = (Map<String, Object>) inputData.get("product");
-       double stockLevel = (Integer) product.get("stockLevel");
-       String productId=(String) inputData.get("productId");
-       stockLevel=stockLevel + action.getActionValue();
-
+        double stockLevel = (Integer) product.get("stockLevel");
+        String productId = (String) inputData.get("productId");
+        stockLevel = stockLevel + action.getActionValue();
 
 
         return new ProductResponse(productId, 53);
@@ -248,9 +245,9 @@ public class RuleService {
     private MembershipRenewalResponse renewMemberShip(Action action, Map<String, Object> inputData) {
         Map<String, Object> customer = (Map<String, Object>) inputData.get("customer");
 
-        Integer loyaltyPoint =(Integer)customer.get("loyaltyPoints");
-        String customerId=(String) customer.get("id");
-        return new MembershipRenewalResponse(customerId, loyaltyPoint,"Premium",true);
+        Integer loyaltyPoint = (Integer) customer.get("loyaltyPoints");
+        String customerId = (String) customer.get("id");
+        return new MembershipRenewalResponse(customerId, loyaltyPoint, "Premium", true);
     }
 
     private double getDiscount(double amount, String percentage) {
@@ -260,122 +257,4 @@ public class RuleService {
     private double replenishStock(double stockLevel, String percentage) {
         return stockLevel + Double.parseDouble(percentage);
     }
-
-//
-//    private  double getDiscount(double amount,String percentage){
-//        return amount-(amount*(Double.parseDouble(percentage)/100));
-//
-//    }
-//    private double replenishStock(double stockLevel, String percentage){
-//        return  stockLevel + Double.parseDouble(percentage);
-//
-//
-//    }
-//    public FraudDetectionResponse checkOrderForFraud(FraudOrder fraudOrder) {
-//        if (fraudOrder.getOrder().getAmount() > 5000) {
-//            return   flagOrderForReview(fraudOrder);
-//        }
-//        return new FraudDetectionResponse(fraudOrder.getOrderId(), fraudOrder.getOrder().getAmount(),false);
-//    }
 }
-//    public Object evaluateRule(Payload payload) {
-//        List<Rule> rules = ruleRepository.findAll();
-//
-//        for (Rule rule : rules) {
-//            if (isConditionMet(rule.getCondition(), payload)) {
-//                return executeAction(rule.getActions(), payload);
-//            }
-//        }
-//        return new EvaluationResponse();
-//    }
-//
-//    private boolean isConditionMet(Condition condition, Payload payload) {
-//        String field;
-//        for (Clause clause : condition.getClauses()) {
-//            // Get the field, operation, and value from the clause
-//            field = clause.getField();
-//            String operation = clause.getOperation();
-//            Object value = clause.getValue();
-//            Object actualValue = getFieldValueFromPayload(payload, field);
-//
-//            switch (operation) {
-//                case "EQUALS":
-//                    return actualValue.equals(value);
-//                case "GREATER_THAN":
-//                    return ((Comparable) actualValue).compareTo(value) > 0;
-//                case "LESS_THAN":
-//                    return ((Comparable) actualValue).compareTo(value) < 0;
-//                default:
-//                    throw new IllegalArgumentException("Invalid operation: " + operation);
-//            }
-//        }
-//
-//        return false;
-//    }
-//
-//    private Object getFieldValueFromPayload(Payload payload, String field) {
-//        try {
-//            String[] parts = field.split("\\.");
-//
-//            Object currentObject = payload;
-//
-//            for (String part : parts) {
-//                Field f = currentObject.getClass().getDeclaredField(part);
-//                f.setAccessible(true);
-//                currentObject = f.get(currentObject);
-//
-//                if (currentObject == null) {
-//                    return null;
-//                }
-//            }
-//
-//            return currentObject;
-//        } catch (NoSuchFieldException | IllegalAccessException e) {
-//            throw new RuntimeException("Error getting field value from payload", e);
-//        }
-//    }
-//
-//    private Object executeAction(List<Action> actions, Payload payload) {
-//        List<Object> results = new ArrayList<>();
-//
-//        for (Action action : actions) {
-//            results.add(executeSingleAction(action, payload));
-//        }
-//
-//        return results;
-//    }
-//
-//    private Object executeSingleAction(Action action, Payload payload) {
-//        String actionType = action.getActionType();
-//
-//        switch (actionType) {
-//            case "DISCOUNT":
-//                return applyDiscount(action, payload);
-//            case "FLAG_FOR_REVIEW":
-//                return flagForReview(action, payload);
-//            default:
-//                throw new IllegalArgumentException("Invalid action type: " + actionType);
-//        }
-//    }
-//
-//    private Object applyDiscount(Action action, com.edstem.project.contract.request.Payload payload) {
-//        double discountPercent = Double.parseDouble((String) action.getActionValue());
-//
-//        double discountAmount = payload.getOrder().getTotal() * discountPercent / 100;
-//
-//        payload.getOrder().setTotal(payload.getOrder().getTotal() - discountAmount);
-//
-//        return payload;
-//    }
-//
-//
-//    private Review flagForReview(Action action, Payload payload) {
-//        Review review = new Review();
-//
-//        review.setOrderId(payload.getClass().getModifiers());
-//        review.setReason((String) action.getActionValue());
-//
-//
-//        return review;
-//    }
-//}

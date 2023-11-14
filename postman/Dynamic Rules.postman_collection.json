@@ -1,18 +1,19 @@
 {
 	"info": {
-		"_postman_id": "51f13f1e-2fc4-4a18-87dc-27a2b53c4f38",
+		"_postman_id": "6437715f-b6df-4b40-8db7-381bfda30ae0",
 		"name": "Dynamic Rules",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "17020731"
 	},
 	"item": [
 		{
-			"name": "CreateRule",
+			"name": "Rule1",
 			"request": {
 				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"rule\": {\r\n\"ruleId\": \"discountForVIP\",\r\n\"description\": \"Apply a 10% discount for VIP customers on their order\",\r\n\"condition\": {\r\n\"type\": \"AND\",\r\n\"clauses\": [\r\n{\r\n\"field\": \"customer.status\",\r\n\"operation\": \"EQUALS\",\r\n\"value\": \"VIP\"\r\n},\r\n{\r\n\"field\": \"order.total\",\r\n\"operation\": \"GREATER_THAN\",\r\n\"value\": 100.00\r\n}\r\n]\r\n},\r\n\"actions\": [\r\n{\r\n\"actionType\": \"DISCOUNT\",\r\n\"discountPercent\": 10\r\n}\r\n]\r\n}\r\n}\r\nhas context menu",
+					"raw": "{\r\n  \"ruleId\": \"discountForVIP\",\r\n  \"description\": \"Apply a 10% discount for VIP customers on their order\",\r\n  \"condition\": {\r\n    \"type\": \"AND\",\r\n    \"clauses\": [\r\n      {\r\n        \"field\": \"customer.status\",\r\n        \"operation\": \"EQUALS\",\r\n        \"value\": \"VIP\"\r\n      },\r\n      {\r\n        \"field\": \"order.total\",\r\n        \"operation\": \"GREATER_THAN\",\r\n        \"value\": 100.00\r\n      }\r\n    ]\r\n  },\r\n  \"actions\": [\r\n    {\r\n      \"actionType\": \"DISCOUNT\",\r\n      \"actionValue\": 10\r\n    }\r\n  ]\r\n},\r\n  \"actions\": [\r\n    {\r\n      \"actionType\": \"DISCOUNT\",\r\n      \"actionValue\": 10\r\n    }\r\n  ]\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -20,12 +21,102 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/v1/rules/create",
+					"raw": "http://localhost:8081/v1/rules/create",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "8080",
+					"port": "8081",
+					"path": [
+						"v1",
+						"rules",
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Rule2",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "\r\n    {\r\n        \"ruleId\": \"fraudDetection\",\r\n        \"description\": \"Flag an order for review if the amount is unusually high\",\r\n        \"condition\": {\r\n            \"type\": \"OR\",\r\n            \"clauses\": [\r\n                {\r\n                    \"field\": \"order.amount\",\r\n                    \"operation\": \"GREATER_THAN\",\r\n                    \"value\": 5000\r\n                },\r\n                {\r\n                    \"field\": \"order.paymentMethod\",\r\n                    \"operation\": \"EQUALS\",\r\n                    \"value\": \"wire_transfer\"\r\n                }\r\n            ]\r\n        },\r\n        \"actions\": [\r\n            {\r\n                \"actionType\": \"FLAG_FOR_REVIEW\",\r\n                \"reason\": \"Potential fraud detected\"\r\n            }\r\n        ]\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8081/v1/rules/create",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"v1",
+						"rules",
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Rule3",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": " {\r\n        \"ruleId\": \"inventoryReplenishment\",\r\n        \"description\": \"Replenish inventory when stock falls below the minimum level\",\r\n        \"condition\": {\r\n            \"type\": null,\r\n            \"clauses\": [\r\n                {\r\n                    \"field\": \"product.stockLevel\",\r\n                    \"operation\": \"LESS_THAN\",\r\n                    \"value\": 1000\r\n                }\r\n                \r\n            ]\r\n        },\r\n        \"actions\": [\r\n            {\r\n                \"actionType\": \"REPLENISH_STOCK\",\r\n                \"membershipType\": \"PREMIUM\"\r\n            }\r\n        ]\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8081/v1/rules/create",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"v1",
+						"rules",
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Rule4",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "    {\r\n        \"ruleId\": \"membershipRenewal\",\r\n        \"description\": \"Renew premium membership automatically if customer has enough\",\r\n        \"condition\": {\r\n            \"type\": null,\r\n            \"clauses\": [\r\n                {\r\n                    \"field\": \"customer.loyaltyPoints\",\r\n                    \"operation\": \"GREATER_THAN_EQUAL\",\r\n                    \"value\": 1000\r\n                }\r\n                \r\n            ]\r\n        },\r\n        \"actions\": [\r\n            {\r\n                \"actionType\": \"RENEW_MEMBERSHIP\",\r\n                \"membershipType\": \"PREMIUM\"\r\n            }\r\n        ]\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8081/v1/rules/create",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
 					"path": [
 						"v1",
 						"rules",
@@ -37,16 +128,28 @@
 		},
 		{
 			"name": "GetAllRules",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
 			"request": {
 				"method": "GET",
 				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"rule\": {\r\n\"ruleId\": \"discountForVIP\",\r\n\"description\": \"Apply a 10% discount for VIP customers on their order\",\r\n\"condition\": {\r\n\"type\": \"AND\",\r\n\"clauses\": [\r\n{\r\n\"field\": \"customer.status\",\r\n\"operation\": \"EQUALS\",\r\n\"value\": \"VIP\"\r\n},\r\n{\r\n\"field\": \"order.total\",\r\n\"operation\": \"GREATER_THAN\",\r\n\"value\": 100.00\r\n}\r\n]\r\n},\r\n\"actions\": [\r\n{\r\n\"actionType\": \"DISCOUNT\",\r\n\"discountPercent\": 10\r\n}\r\n]\r\n}\r\n}\r\nhas context menu",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
 				"url": {
-					"raw": "http://localhost:8080/v1/rules/all",
+					"raw": "http://localhost:8081/v1/rules/all",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "8080",
+					"port": "8081",
 					"path": [
 						"v1",
 						"rules",
@@ -57,21 +160,120 @@
 			"response": []
 		},
 		{
-			"name": "DeleteRulesById",
+			"name": "EvaluateRule2",
 			"request": {
-				"method": "DELETE",
+				"method": "POST",
 				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"orderId\": \"789101\",\r\n    \"customer\": {\r\n        \"id\": \"cust202\",\r\n        \"name\": \"Jane Smith\"\r\n    },\r\n    \"order\": {\r\n        \"amount\": 6000,\r\n        \"paymentMethod\": \"credit_card\",\r\n        \"date\": \"2023-11-03\"\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
 				"url": {
-					"raw": "http://localhost:8080/v1/rules/5",
+					"raw": "http://localhost:8081/v1/rules/evaluate",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "8080",
+					"port": "8081",
 					"path": [
 						"v1",
 						"rules",
-						"5"
+						"evaluate"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "EvaluateRule1",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"orderId\": \"789101\",\r\n    \"customer\": {\r\n        \"id\": \"cust202\",\r\n        \"name\": \"Jane Smith\"\r\n    },\r\n    \"order\": {\r\n        \"amount\": 4000,\r\n        \"paymentMethod\": \"credit_card\",\r\n        \"date\": \"2023-11-03\"\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8081/v1/rules/evaluate",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"v1",
+						"rules",
+						"evaluate"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "EvaluateRule4",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"orderId\": \"789101\",\r\n\"customer\": {\r\n    \"id\":\"12345\",\r\n\"loyaltyPoints\": 1000000,\r\n\"name\": \"Jane Smith\"\r\n}\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8081/v1/rules/evaluate",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"v1",
+						"rules",
+						"evaluate"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Rule3",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"productId\": \"prod-305\",\r\n  \"product\": {\r\n    \"name\": \"Wireless Mouse\",\r\n    \"stockLevel\": 3\r\n  }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8081/v1/rules/evaluate",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"v1",
+						"rules",
+						"evaluate"
 					]
 				}
 			},
