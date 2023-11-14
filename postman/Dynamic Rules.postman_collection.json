@@ -1,14 +1,12 @@
 {
 	"info": {
-		"_postman_id": "e2fa1940-1981-4428-9211-280806406216",
+		"_postman_id": "51f13f1e-2fc4-4a18-87dc-27a2b53c4f38",
 		"name": "Dynamic Rules",
-		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
-		"_exporter_id": "28430410",
-		"_collection_link": "https://martian-capsule-417732.postman.co/workspace/New-Team-Workspace~0df16d72-669a-4950-af5c-6491f494dbc9/collection/28430410-e2fa1940-1981-4428-9211-280806406216?action=share&source=collection_link&creator=28430410"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
-			"name": "New Request",
+			"name": "CreateRule",
 			"request": {
 				"method": "POST",
 				"header": [],
@@ -21,7 +19,61 @@
 						}
 					}
 				},
-				"url": "http://localhost:8080/v1/rules/create"
+				"url": {
+					"raw": "http://localhost:8080/v1/rules/create",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"v1",
+						"rules",
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetAllRules",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/v1/rules/all",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"v1",
+						"rules",
+						"all"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DeleteRulesById",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/v1/rules/5",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"v1",
+						"rules",
+						"5"
+					]
+				}
 			},
 			"response": []
 		}
