@@ -14,15 +14,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-
-import org.springframework.web.bind.annotation.GetMapping;
-
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -42,32 +34,32 @@ public class RuleController {
         RuleResponse response = ruleService.createRule(request);
         return ResponseEntity.ok(response);
     }
-    @DeleteMapping("/delete/{id}")
-    public void deleteRule(@PathVariable Long id) {
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String>  deleteRule(@PathVariable Long id) {
          ruleService.deleteRule(id);
-
+         return ResponseEntity.ok("Rule Successfully Deleted");
     }
-
 
     @GetMapping("/all")
     public ResponseEntity<List<AllRuleResponse>> getAllRules() {
         List<AllRuleResponse> response = ruleService.getAllRules();
         return ResponseEntity.ok(response);
     }
-    @PostMapping("/check")
-    public ResponseEntity<EvaluationResponse> evaluateRule(@RequestBody Payload payload) {
-        try {
-            boolean isRuleValid = (boolean) ruleService.evaluateRule(payload);
-            if (isRuleValid) {
-                EvaluationResponse Response = new EvaluationResponse("Rule is valid");
-                return new ResponseEntity<>(Response, HttpStatus.OK);
-            } else {
-                EvaluationResponse Response = new EvaluationResponse("Rule is not valid");
-                return new ResponseEntity<>(Response, HttpStatus.BAD_REQUEST);
-            }
-        } catch (IllegalArgumentException e) {
-            EvaluationResponse ruleResponse = new EvaluationResponse(e.getMessage());
-            return new ResponseEntity<>(ruleResponse, HttpStatus.BAD_REQUEST);
-        }
-    }
+
+//    @PostMapping("/check")
+//    public ResponseEntity<EvaluationResponse> evaluateRule(@RequestBody Payload payload) {
+//        try {
+//            boolean isRuleValid = (boolean) ruleService.evaluateRule(payload);
+//            if (isRuleValid) {
+//                EvaluationResponse Response = new EvaluationResponse("Rule is valid");
+//                return new ResponseEntity<>(Response, HttpStatus.OK);
+//            } else {
+//                EvaluationResponse Response = new EvaluationResponse("Rule is not valid");
+//                return new ResponseEntity<>(Response, HttpStatus.BAD_REQUEST);
+//            }
+//        } catch (IllegalArgumentException e) {
+//            EvaluationResponse ruleResponse = new EvaluationResponse(e.getMessage());
+//            return new ResponseEntity<>(ruleResponse, HttpStatus.BAD_REQUEST);
+//        }
+//    }
 }

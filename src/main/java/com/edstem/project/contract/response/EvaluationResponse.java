@@ -11,6 +11,4 @@ import lombok.Setter;
 @Setter
 public class EvaluationResponse {
     private String message;
-
-
 }

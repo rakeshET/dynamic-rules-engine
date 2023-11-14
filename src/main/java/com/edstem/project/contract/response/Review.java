@@ -9,5 +9,4 @@ public class Review {
     private long id;
     private long orderId;
     private String reason;
-
 }

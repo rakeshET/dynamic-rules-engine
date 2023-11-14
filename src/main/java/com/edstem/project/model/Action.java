@@ -27,6 +27,6 @@ public class Action {
     @Column(name = "action_type")
     private String actionType;
 
-    private String actionValue;
+    private double actionValue;
 
 }

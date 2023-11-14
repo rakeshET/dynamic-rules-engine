@@ -23,10 +23,9 @@ public class Clause {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String field;
     private String operation;
-    private Double value;
+    private String value;
 
 }
 
