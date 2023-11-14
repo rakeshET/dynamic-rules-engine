@@ -39,6 +39,12 @@ public class RuleController {
          ruleService.deleteRule(id);
          return ResponseEntity.ok("Rule Successfully Deleted");
     }
+    @PutMapping("/{ruleId}")
+    public ResponseEntity<RuleResponse> updateRule(@PathVariable Long ruleId, @RequestBody RuleRequest request) {
+        RuleResponse response = ruleService.updateRule(ruleId, request);
+        HttpStatus status = response.getStatus().equals("Success") ? HttpStatus.OK : HttpStatus.BAD_REQUEST;
+        return new ResponseEntity<>(response, status);
+    }
 
     @GetMapping("/all")
     public ResponseEntity<List<AllRuleResponse>> getAllRules() {

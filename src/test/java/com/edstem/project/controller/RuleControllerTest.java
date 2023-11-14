@@ -13,6 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
@@ -71,6 +72,30 @@ public class RuleControllerTest {
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().contentType("text/plain;charset=ISO-8859-1"))
                 .andExpect(MockMvcResultMatchers.content().string("Rule Successfully Deleted"));
+    }
+    @Test
+    void testUpdateRule() throws Exception {
+        when(ruleService.updateRule(Mockito.<Long>any(), Mockito.<RuleRequest>any()))
+                .thenReturn(new RuleResponse("Status", "sample"));
+
+        RuleCondition conditionType = new RuleCondition();
+        conditionType.setClauses(new ArrayList<>());
+        conditionType.setType("Type");
+
+        RuleRequest ruleRequest = new RuleRequest();
+        ruleRequest.setActions(new ArrayList<>());
+        ruleRequest.setConditionType(conditionType);
+        ruleRequest.setDescription("something");
+        ruleRequest.setRuleId("42");
+        String content = (new ObjectMapper()).writeValueAsString(ruleRequest);
+        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.put("/v1/rules/{ruleId}", 1L)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(content);
+        ResultActions actualPerformResult = MockMvcBuilders.standaloneSetup(ruleController).build().perform(requestBuilder);
+        actualPerformResult.andExpect(MockMvcResultMatchers.status().is(400))
+                .andExpect(MockMvcResultMatchers.content().contentType("application/json"))
+                .andExpect(MockMvcResultMatchers.content()
+                        .string("{\"status\":\"Status\",\"message\":\"sample\"}"));
     }
     @Test
     void testGetAllRules() throws Exception {

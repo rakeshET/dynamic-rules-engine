@@ -24,6 +24,7 @@ import org.springframework.stereotype.Service;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -79,6 +80,47 @@ public class RuleService {
             ruleRepository.deleteById(id);
 
     }
+    public RuleResponse updateRule(Long ruleId, RuleRequest request) {
+        try {
+            Optional<Rule> optionalRule = ruleRepository.findById(ruleId);
+
+            if (optionalRule.isPresent()) {
+                Rule rule = optionalRule.get();
+                rule.setDescription(request.getDescription());
+                Condition condition = rule.getCondition();
+                condition.setType(request.getConditionType().getType());
+
+                List<Clause> clauses = new ArrayList<>();
+                for (RuleClauses clause : request.getConditionType().getClauses()) {
+                    Clause clause1 = new Clause();
+                    clause1.setField(clause.getField());
+                    clause1.setOperation(clause.getOperation());
+                    clause1.setValue(clause.getValue());
+                    clauses.add(clause1);
+                }
+                condition.setClauses(clauses);
+
+                List<Action> actions = new ArrayList<>();
+                for (RuleAction actionRequest : request.getActions()) {
+                    Action action = new Action();
+                    action.setActionType(actionRequest.getActionType());
+                    action.setActionValue(actionRequest.getActionValue());
+                    actions.add(action);
+                }
+                rule.setActions(actions);
+
+
+                ruleRepository.save(rule);
+
+                return new RuleResponse("Success", "Rule updated successfully");
+            } else {
+                return new RuleResponse("Error", "Rule not found with ID: " + ruleId);
+            }
+        } catch (Exception e) {
+            return new RuleResponse("Error", "Failed to update the rule: " + e.getMessage());
+        }
+    }
+
 
     public List<AllRuleResponse> getAllRules() {
         List<Rule> rules = ruleRepository.findAll();

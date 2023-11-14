@@ -2,7 +2,7 @@ spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/dynamic
     username: postgres
-    password: asd123.
+    password: postgres
     driver-class-name: org.postgresql.Driver
   jpa:
     show-sql: true
