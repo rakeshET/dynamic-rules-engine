@@ -25,6 +25,7 @@ public class Condition {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = true)
     private String type;
 
     @OneToMany(cascade = CascadeType.ALL)

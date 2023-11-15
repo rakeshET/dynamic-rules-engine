@@ -18,6 +18,6 @@ public class AllRuleResponse {
 //    private String message;
     private String ruleId;
     private String description;
-    private RuleCondition conditionType;
+    private RuleCondition condition;
     private List<RuleAction> actions;
 }
