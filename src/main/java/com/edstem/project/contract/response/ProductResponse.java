@@ -10,5 +10,5 @@ import lombok.*;
 @Builder
 public class ProductResponse {
     private String productId;
-    private Integer stockLevel;
+    private Double stockLevel;
 }
