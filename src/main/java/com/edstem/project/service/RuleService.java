@@ -1,6 +1,4 @@
 package com.edstem.project.service;
-
-import com.edstem.project.contract.request.Payload;
 import com.edstem.project.contract.request.RuleAction;
 import com.edstem.project.contract.request.RuleClauses;
 import com.edstem.project.contract.request.RuleRequest;
@@ -44,7 +42,7 @@ public class RuleService {
     public List<AllRuleResponse> getAllRules() {
         List<Rule> rules = ruleRepository.findAll();
         return rules.stream()
-                .map(rule -> convertToAllRuleResponse(rule))
+                .map(this::convertToAllRuleResponse)
                 .collect(Collectors.toList());
     }
 
@@ -189,24 +187,17 @@ public class RuleService {
         String field = clause.getField();
         String operation = clause.getOperation();
         String value = clause.getValue();
-
         Object actualValue = getFieldValue(field, inputData);
         if (actualValue == null) {
             return false;
         }
-
-        switch (operation.toUpperCase()) {
-            case "EQUALS":
-                return value.equals(actualValue);
-            case "GREATER_THAN":
-                return Double.parseDouble(value) < Double.parseDouble(actualValue.toString());
-            case "LESS_THAN":
-                return Double.parseDouble(value) > Double.parseDouble(actualValue.toString());
-            case "GREATER_THAN_EQUAL":
-                return Double.parseDouble(value) <= Double.parseDouble(actualValue.toString());
-            default:
-                return false;
-        }
+        return switch (operation.toUpperCase()) {
+            case "EQUALS" -> value.equals(actualValue);
+            case "GREATER_THAN" -> Double.parseDouble(value) < Double.parseDouble(actualValue.toString());
+            case "LESS_THAN" -> Double.parseDouble(value) > Double.parseDouble(actualValue.toString());
+            case "GREATER_THAN_EQUAL" -> Double.parseDouble(value) <= Double.parseDouble(actualValue.toString());
+            default -> false;
+        };
 
     }
 
@@ -243,11 +234,8 @@ public class RuleService {
                     }
                 case "RENEW_MEMBERSHIP":
                     if (inputData.containsKey("customer")) {
-
-
                         return renewMemberShip(action, inputData);
                     }
-
                 default:
                     throw new IllegalArgumentException("Unknown action type: " + action);
             }
@@ -284,7 +272,7 @@ public class RuleService {
         if (customer.containsKey("loyaltyPoints")){
         Integer loyaltyPoint = (Integer) customer.get("loyaltyPoints");
         String customerId = (String) customer.get("id");
-        return new MembershipRenewalResponse(customerId, loyaltyPoint, "Premium", true);
+        return new MembershipRenewalResponse(customerId, loyaltyPoint, "PREMIUM", true);
         }
         else
             return null;
