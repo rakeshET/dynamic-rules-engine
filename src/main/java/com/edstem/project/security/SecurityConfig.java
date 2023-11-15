@@ -40,7 +40,8 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/user/signup").permitAll()
                         .requestMatchers(HttpMethod.POST, "/user/login").permitAll()
                         .requestMatchers("/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**", "/swagger-resources/**").permitAll()
-                        .requestMatchers("/v1/rules/**").hasAuthority("ADMIN")
+//                        .requestMatchers("/v1/rules/**").permitAll()
+                        .requestMatchers("/v1/rules/admin/create").hasAuthority("ADMIN")
                         .requestMatchers("/error/**").permitAll()
                         .anyRequest().authenticated()
                 )
@@ -51,6 +52,7 @@ public class SecurityConfig {
                 .addFilterBefore(authFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
+
 
     @Bean
     public PasswordEncoder passwordEncoder() {

@@ -1,6 +1,5 @@
 package com.edstem.project.service;
 
-import com.edstem.project.contract.request.Payload;
 import com.edstem.project.contract.request.RuleAction;
 import com.edstem.project.contract.request.RuleClauses;
 import com.edstem.project.contract.request.RuleRequest;

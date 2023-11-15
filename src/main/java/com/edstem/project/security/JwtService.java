@@ -1,6 +1,7 @@
 package com.edstem.project.security;
 
 import com.edstem.project.contract.response.AuthResponse;
+import com.edstem.project.model.User;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -15,8 +16,8 @@ import java.util.function.Function;
 
 @Component
 public class JwtService {
-    public static final String SECRET = "5367566B59703373367639792F423F4528482B4D6251655468576D5A71347437";
 
+    public static final String SECRET = "5367566B59703373367639792F423F4528482B4D6251655468576D5A71347437";
 
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
@@ -50,9 +51,9 @@ public class JwtService {
     }
 
 
-    public AuthResponse generateToken(String userName){
+    public AuthResponse generateToken(User user){
         Map<String,Object> claims=new HashMap<>();
-        return createToken(claims,userName);
+        return createToken(claims,user.getEmail());
     }
 
     private AuthResponse createToken(Map<String, Object> claims, String userName) {
@@ -69,7 +70,7 @@ public class JwtService {
     }
 
     private Key getSignKey() {
-        byte[] keyBytes= Decoders.BASE64.decode(SECRET);
+        byte[] keyBytes = Decoders.BASE64.decode(SECRET);
         return Keys.hmacShaKeyFor(keyBytes);
     }
 }

@@ -3,7 +3,7 @@ package com.edstem.project.service;
 import com.edstem.project.contract.request.LoginRequest;
 import com.edstem.project.contract.request.SignUpRequest;
 import com.edstem.project.contract.response.AuthResponse;
-import com.edstem.project.contract.response.SignUpResponse;
+import com.edstem.project.contract.response.UserResponse;
 import com.edstem.project.exception.InvalidLoginException;
 import com.edstem.project.model.Role;
 import com.edstem.project.model.User;
@@ -24,7 +24,7 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
 
-    public SignUpResponse signUp(SignUpRequest request) {
+    public UserResponse signUp(SignUpRequest request) {
         if (userRepository.existsByEmail(request.getEmail())) {
             throw new EntityExistsException("Invalid Signup");
         }
@@ -33,10 +33,10 @@ public class UserService {
                         .name(request.getName())
                         .email(request.getEmail())
                         .password(passwordEncoder.encode(request.getPassword()))
-                        .role(Role.USER)
+                        .role(Role.ADMIN)
                         .build();
         user = userRepository.save(user);
-        return modelMapper.map(user, SignUpResponse.class);
+        return modelMapper.map(user, UserResponse.class);
     }
 
     public AuthResponse login(LoginRequest request) throws Exception{
@@ -47,7 +47,7 @@ public class UserService {
         }
         User user = userRepository.findByEmail(request.getEmail());
         if (passwordEncoder.matches(password, user.getPassword())) {
-            AuthResponse jwtToken = jwtService.generateToken(user.getName());
+            AuthResponse jwtToken = jwtService.generateToken(user);
             return jwtToken;
         }
         throw new InvalidLoginException();

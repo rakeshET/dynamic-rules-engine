@@ -3,6 +3,7 @@ package com.edstem.project.controller;
 import com.edstem.project.contract.request.LoginRequest;
 import com.edstem.project.contract.request.SignUpRequest;
 import com.edstem.project.contract.response.AuthResponse;
+import com.edstem.project.contract.response.UserResponse;
 import com.edstem.project.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +21,7 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/signup")
-    public SignUpResponse SignUp(@Valid @RequestBody SignUpRequest request) {
+    public UserResponse SignUp(@Valid @RequestBody SignUpRequest request) {
         return userService.signUp(request);
     }
 

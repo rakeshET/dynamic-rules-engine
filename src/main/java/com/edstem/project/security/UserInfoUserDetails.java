@@ -9,17 +9,17 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
 
 public class UserInfoUserDetails implements UserDetails {
-    private String email;
-    private String password;
-    private Role role;
+    private final String email;
+    private final String password;
+    private final Role role;
     public UserInfoUserDetails(User user) {
         email=user.getEmail();
         password=user.getPassword();
         role = user.getRole();
     }
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
