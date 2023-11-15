@@ -54,7 +54,8 @@ public class RuleController {
     }
 
     @PostMapping("/evaluate")
-    public Object evaluateRules(@RequestBody Map<String, Object> inputData) {
-        return ruleService.evaluateRules(inputData);
+    public ResponseEntity<?> evaluateRules(@RequestBody Map<String, Object> inputData) {
+        Object result = ruleService.evaluateRules(inputData);
+        return ResponseEntity.ok(result);
     }
 }

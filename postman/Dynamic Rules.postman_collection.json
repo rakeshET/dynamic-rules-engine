@@ -7,13 +7,13 @@
 	},
 	"item": [
 		{
-			"name": "Rule1",
+			"name": "rule1-discount",
 			"request": {
 				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n  \"ruleId\": \"discountForVIP\",\r\n  \"description\": \"Apply a 10% discount for VIP customers on their order\",\r\n  \"condition\": {\r\n    \"type\": \"AND\",\r\n    \"clauses\": [\r\n      {\r\n        \"field\": \"customer.status\",\r\n        \"operation\": \"EQUALS\",\r\n        \"value\": \"VIP\"\r\n      },\r\n      {\r\n        \"field\": \"order.total\",\r\n        \"operation\": \"GREATER_THAN\",\r\n        \"value\": 100.00\r\n      }\r\n    ]\r\n  },\r\n  \"actions\": [\r\n    {\r\n      \"actionType\": \"DISCOUNT\",\r\n      \"actionValue\": 10\r\n    }\r\n  ]\r\n},\r\n  \"actions\": [\r\n    {\r\n      \"actionType\": \"DISCOUNT\",\r\n      \"actionValue\": 10\r\n    }\r\n  ]\r\n}",
+					"raw": "{\r\n  \"ruleId\": \"discountForVIP\",\r\n  \"description\": \"Apply a 10% discount for VIP customers on their order\",\r\n  \"condition\": {\r\n    \"type\": \"AND\",\r\n    \"clauses\": [\r\n      {\r\n        \"field\": \"customer.status\",\r\n        \"operation\": \"EQUALS\",\r\n        \"value\": \"VIP\"\r\n      },\r\n      {\r\n        \"field\": \"order.total\",\r\n        \"operation\": \"GREATER_THAN\",\r\n        \"value\": 100.00\r\n      }\r\n    ]\r\n  },\r\n  \"actions\": [\r\n    {\r\n      \"actionType\": \"DISCOUNT\",\r\n      \"actionValue\": 10\r\n    }\r\n  ]\r\n}\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -21,12 +21,10 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8081/v1/rules/create",
-					"protocol": "http",
+					"raw": "{{host}}/v1/rules/create",
 					"host": [
-						"localhost"
+						"{{host}}"
 					],
-					"port": "8081",
 					"path": [
 						"v1",
 						"rules",
@@ -37,7 +35,7 @@
 			"response": []
 		},
 		{
-			"name": "Rule2",
+			"name": "rule2-fraudDetection",
 			"request": {
 				"method": "POST",
 				"header": [],
@@ -51,12 +49,10 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8081/v1/rules/create",
-					"protocol": "http",
+					"raw": "{{host}}/v1/rules/create",
 					"host": [
-						"localhost"
+						"{{host}}"
 					],
-					"port": "8081",
 					"path": [
 						"v1",
 						"rules",
@@ -67,13 +63,13 @@
 			"response": []
 		},
 		{
-			"name": "Rule3",
+			"name": "rule3-replenishStock",
 			"request": {
 				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": " {\r\n        \"ruleId\": \"inventoryReplenishment\",\r\n        \"description\": \"Replenish inventory when stock falls below the minimum level\",\r\n        \"condition\": {\r\n            \"type\": null,\r\n            \"clauses\": [\r\n                {\r\n                    \"field\": \"product.stockLevel\",\r\n                    \"operation\": \"LESS_THAN\",\r\n                    \"value\": 1000\r\n                }\r\n                \r\n            ]\r\n        },\r\n        \"actions\": [\r\n            {\r\n                \"actionType\": \"REPLENISH_STOCK\",\r\n                \"membershipType\": \"PREMIUM\"\r\n            }\r\n        ]\r\n    }",
+					"raw": " {\r\n        \"ruleId\": \"inventoryReplenishment\",\r\n        \"description\": \"Replenish inventory when stock falls below the minimum level\",\r\n        \"condition\": {\r\n            \"type\": null,\r\n            \"clauses\": [\r\n                {\r\n                    \"field\": \"product.stockLevel\",\r\n                    \"operation\": \"LESS_THAN\",\r\n                    \"value\": 1000\r\n                }\r\n                \r\n            ]\r\n        },\r\n        \"actions\": [\r\n            {\r\n                \"actionType\": \"REPLENISH_STOCK\",\r\n               \"actionValue\": 10\r\n            }\r\n        ]\r\n    }",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -81,12 +77,10 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8081/v1/rules/create",
-					"protocol": "http",
+					"raw": "{{host}}/v1/rules/create",
 					"host": [
-						"localhost"
+						"{{host}}"
 					],
-					"port": "8081",
 					"path": [
 						"v1",
 						"rules",
@@ -97,7 +91,7 @@
 			"response": []
 		},
 		{
-			"name": "Rule4",
+			"name": "Rule4-memberShipRenewal",
 			"request": {
 				"method": "POST",
 				"header": [],
@@ -111,12 +105,10 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8081/v1/rules/create",
-					"protocol": "http",
+					"raw": "{{host}}/v1/rules/create",
 					"host": [
-						"localhost"
+						"{{host}}"
 					],
-					"port": "8081",
 					"path": [
 						"v1",
 						"rules",
@@ -128,28 +120,14 @@
 		},
 		{
 			"name": "GetAllRules",
-			"protocolProfileBehavior": {
-				"disableBodyPruning": true
-			},
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"rule\": {\r\n\"ruleId\": \"discountForVIP\",\r\n\"description\": \"Apply a 10% discount for VIP customers on their order\",\r\n\"condition\": {\r\n\"type\": \"AND\",\r\n\"clauses\": [\r\n{\r\n\"field\": \"customer.status\",\r\n\"operation\": \"EQUALS\",\r\n\"value\": \"VIP\"\r\n},\r\n{\r\n\"field\": \"order.total\",\r\n\"operation\": \"GREATER_THAN\",\r\n\"value\": 100.00\r\n}\r\n]\r\n},\r\n\"actions\": [\r\n{\r\n\"actionType\": \"DISCOUNT\",\r\n\"discountPercent\": 10\r\n}\r\n]\r\n}\r\n}\r\nhas context menu",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
 				"url": {
-					"raw": "http://localhost:8081/v1/rules/all",
-					"protocol": "http",
+					"raw": "{{host}}/v1/rules/all",
 					"host": [
-						"localhost"
+						"{{host}}"
 					],
-					"port": "8081",
 					"path": [
 						"v1",
 						"rules",
@@ -160,13 +138,13 @@
 			"response": []
 		},
 		{
-			"name": "EvaluateRule2",
+			"name": "evaluateRule1-discount",
 			"request": {
 				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"orderId\": \"789101\",\r\n    \"customer\": {\r\n        \"id\": \"cust202\",\r\n        \"name\": \"Jane Smith\"\r\n    },\r\n    \"order\": {\r\n        \"amount\": 6000,\r\n        \"paymentMethod\": \"credit_card\",\r\n        \"date\": \"2023-11-03\"\r\n    }\r\n}",
+					"raw": "{\r\n  \"orderId\": \"123456\",\r\n  \"customer\": {\r\n    \"id\": \"cust101\",\r\n    \"name\": \"John Doe\",\r\n    \"status\": \"VIP\"\r\n  },\r\n  \"order\": {\r\n    \"total\": 10000.00,\r\n    \"items\": [\r\n      {\r\n        \"productId\": \"prod-200\",\r\n        \"name\": \"Bluetooth Speaker\",\r\n        \"price\": 150.0,\r\n        \"quantity\": 1\r\n      }\r\n    ],\r\n    \"date\": \"2023-11-03\"\r\n  }\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -174,12 +152,10 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8081/v1/rules/evaluate",
-					"protocol": "http",
+					"raw": "{{host}}/v1/rules/evaluate",
 					"host": [
-						"localhost"
+						"{{host}}"
 					],
-					"port": "8081",
 					"path": [
 						"v1",
 						"rules",
@@ -190,13 +166,13 @@
 			"response": []
 		},
 		{
-			"name": "EvaluateRule1",
+			"name": "evaluateRule2-fraudDetection",
 			"request": {
 				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"orderId\": \"789101\",\r\n    \"customer\": {\r\n        \"id\": \"cust202\",\r\n        \"name\": \"Jane Smith\"\r\n    },\r\n    \"order\": {\r\n        \"amount\": 4000,\r\n        \"paymentMethod\": \"credit_card\",\r\n        \"date\": \"2023-11-03\"\r\n    }\r\n}",
+					"raw": "{\r\n    \"orderId\": \"789101\",\r\n    \"customer\": {\r\n        \"id\": \"cust202\",\r\n        \"name\": \"Jane Smith\"\r\n    },\r\n    \"order\": {\r\n        \"amount\": 6000.00,\r\n        \"paymentMethod\": \"credit_card\",\r\n        \"date\": \"2023-11-03\"\r\n    }\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -204,12 +180,10 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8081/v1/rules/evaluate",
-					"protocol": "http",
+					"raw": "{{host}}/v1/rules/evaluate",
 					"host": [
-						"localhost"
+						"{{host}}"
 					],
-					"port": "8081",
 					"path": [
 						"v1",
 						"rules",
@@ -220,13 +194,13 @@
 			"response": []
 		},
 		{
-			"name": "EvaluateRule4",
+			"name": "evaluateRule3-ReplenishStock",
 			"request": {
 				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n\"orderId\": \"789101\",\r\n\"customer\": {\r\n    \"id\":\"12345\",\r\n\"loyaltyPoints\": 1000000,\r\n\"name\": \"Jane Smith\"\r\n}\r\n}\r\n",
+					"raw": "{\r\n  \"productId\": \"prod-305\",\r\n  \"product\": {\r\n    \"name\": \"Wireless Mouse\",\r\n    \"stockLevel\": 10.0\r\n  }\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -234,12 +208,10 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8081/v1/rules/evaluate",
-					"protocol": "http",
+					"raw": "{{host}}/v1/rules/evaluate",
 					"host": [
-						"localhost"
+						"{{host}}"
 					],
-					"port": "8081",
 					"path": [
 						"v1",
 						"rules",
@@ -250,13 +222,13 @@
 			"response": []
 		},
 		{
-			"name": "Rule3",
+			"name": "evaluateRule4-memberShipRenewal",
 			"request": {
 				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n  \"productId\": \"prod-305\",\r\n  \"product\": {\r\n    \"name\": \"Wireless Mouse\",\r\n    \"stockLevel\": 3\r\n  }\r\n}",
+					"raw": "{\r\n\"orderId\": \"789101\",\r\n\"customer\": {\r\n    \"id\":\"12345\",\r\n\"loyaltyPoints\": 10,\r\n\"name\": \"Jane Smith\"\r\n}\r\n}\r\n",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -264,12 +236,10 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8081/v1/rules/evaluate",
-					"protocol": "http",
+					"raw": "{{host}}/v1/rules/evaluate",
 					"host": [
-						"localhost"
+						"{{host}}"
 					],
-					"port": "8081",
 					"path": [
 						"v1",
 						"rules",

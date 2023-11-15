@@ -18,10 +18,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -108,7 +105,7 @@ public class RuleService {
             response.getCondition().setType(rule.getCondition().getType());
         }
 
-        response.setId(rule.getId()); // Explicitly set the id
+        response.setId(rule.getId());
         return response;
     }
 
@@ -123,31 +120,29 @@ public class RuleService {
 
     public Object evaluateRules(Map<String, Object> inputData) {
         List<Rule> allRules = ruleRepository.findAll();
-        Object response = new Object();
-        List<Rule> matchedRules = new ArrayList<>();
-
+        Object response = null;
         for (Rule rule : allRules) {
             if (evaluateRule(rule, inputData)) {
                 response = evaluateAction(rule.getActions(), inputData);
-
                 break;
 
             }
         }
-
+        if (response == null) {
+            response = new HashMap<>();
+            ((HashMap<String, String>) response).put("ruleId","No Rule Found");
+        }
         return response;
+
     }
 
 
     private boolean evaluateRule(Rule rule, Map<String, Object> inputData) {
-        // Implement the logic to evaluate the rule based on the input data
 
         Condition condition = rule.getCondition();
         if (condition == null) {
-
             return true;
         }
-
         return evaluateCondition(condition, inputData);
     }
 
@@ -175,8 +170,8 @@ public class RuleService {
             }
             return false;
 
-
-        } else if (condition.getType() == null) {
+        }
+        else {
             for (Clause clause : condition.getClauses()) {
                 if (clause != null) {
                     if (evaluateClause(clause, inputData)) {
@@ -184,9 +179,8 @@ public class RuleService {
                     }
                 }
             }
-            return true;
+            return false;
         }
-        return true;
     }
 
     private boolean evaluateClause(Clause clause, Map<String, Object> inputData) {
@@ -210,7 +204,6 @@ public class RuleService {
                 return Double.parseDouble(value) > Double.parseDouble(actualValue.toString());
             case "GREATER_THAN_EQUAL":
                 return Double.parseDouble(value) <= Double.parseDouble(actualValue.toString());
-            // Add more cases for other operations
             default:
                 return false;
         }
@@ -250,6 +243,8 @@ public class RuleService {
                     }
                 case "RENEW_MEMBERSHIP":
                     if (inputData.containsKey("customer")) {
+
+
                         return renewMemberShip(action, inputData);
                     }
 
@@ -276,28 +271,23 @@ public class RuleService {
     }
 
     private Object evaluateReplenishStock(Action action, Map<String, Object> inputData) {
+
         Map<String, Object> product = (Map<String, Object>) inputData.get("product");
-        double stockLevel = (Integer) product.get("stockLevel");
+        Double stockLevel = (Double) product.get("stockLevel");
         String productId = (String) inputData.get("productId");
-        stockLevel = stockLevel + action.getActionValue();
-
-
-        return new ProductResponse(productId, 53);
+        Double newStockLevel= stockLevel +action.getActionValue();
+        return new ProductResponse(productId, newStockLevel);
     }
 
     private MembershipRenewalResponse renewMemberShip(Action action, Map<String, Object> inputData) {
         Map<String, Object> customer = (Map<String, Object>) inputData.get("customer");
-
+        if (customer.containsKey("loyaltyPoints")){
         Integer loyaltyPoint = (Integer) customer.get("loyaltyPoints");
         String customerId = (String) customer.get("id");
         return new MembershipRenewalResponse(customerId, loyaltyPoint, "Premium", true);
-    }
+        }
+        else
+            return null;
 
-    private double getDiscount(double amount, String percentage) {
-        return amount - (amount * (Double.parseDouble(percentage) / 100));
-    }
-
-    private double replenishStock(double stockLevel, String percentage) {
-        return stockLevel + Double.parseDouble(percentage);
     }
 }
