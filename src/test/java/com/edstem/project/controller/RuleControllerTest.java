@@ -36,7 +36,7 @@ public class RuleControllerTest {
     @Test
     void testCreateRule() throws Exception {
         when(ruleService.createRule(Mockito.<RuleRequest>any()))
-                .thenReturn(new RuleResponse("Status", "sample message"));
+                .thenReturn(new RuleResponse("Status", "Not all who wander are lost"));
 
         RuleCondition condition = new RuleCondition();
         condition.setClauses(new ArrayList<>());
@@ -45,11 +45,11 @@ public class RuleControllerTest {
         RuleRequest ruleRequest = new RuleRequest();
         ruleRequest.setActions(new ArrayList<>());
         ruleRequest.setCondition(condition);
-        ruleRequest.setDescription("desc");
+        ruleRequest.setDescription("The characteristics of someone or something");
         ruleRequest.setId(1L);
         ruleRequest.setRuleId("42");
         String content = (new ObjectMapper()).writeValueAsString(ruleRequest);
-        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.post("/v1/rules/create")
+        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.post("/v1/rules/admin/create")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(content);
         MockMvcBuilders.standaloneSetup(ruleController)
@@ -58,8 +58,9 @@ public class RuleControllerTest {
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().contentType("application/json"))
                 .andExpect(MockMvcResultMatchers.content()
-                        .string("{\"status\":\"Status\",\"message\":\"sample message\"}"));
+                        .string("{\"status\":\"Status\",\"message\":\"Not all who wander are lost\"}"));
     }
+
 
     @Test
     void testDeleteRule() throws Exception {
