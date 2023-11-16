@@ -1,3 +1,7 @@
+
+server:
+  port: 8081
+
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/postgres
@@ -12,4 +16,3 @@ spring:
         jdbc:
           lob:
             non_contextual_creation: true
-
