@@ -11,19 +11,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
-//@Component
-//@RequiredArgsConstructor
-//public class UserInfoUserDetailsService implements UserDetailsService {
-//    @Autowired
-//    private UserRepository userRepository;
-//
-//    @Override
-//    public UserDetails loadUserByUsername(String name) throws RuntimeException{
-//        String userOptional = userRepository.findByName(name);
-//        return userOptional.map(UserInfoUserDetails::new)
-//                .orElseThrow(() -> new Exception("User not found"));
-//    }
-//}
+
 @Component
 @RequiredArgsConstructor
 public class UserInfoUserDetailsService implements UserDetailsService {

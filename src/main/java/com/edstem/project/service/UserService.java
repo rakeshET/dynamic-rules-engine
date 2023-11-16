@@ -28,12 +28,15 @@ public class UserService {
         if (userRepository.existsByEmail(request.getEmail())) {
             throw new EntityExistsException("Invalid Signup");
         }
-        User user =
-                User.builder()
+        Role role=Role.ADMIN;
+        if("USER".equals(request.getRole())){
+            role=Role.USER;
+        }
+        User user = User.builder()
                         .name(request.getName())
                         .email(request.getEmail())
                         .password(passwordEncoder.encode(request.getPassword()))
-                        .role(Role.ADMIN)
+                        .role(role)
                         .build();
         user = userRepository.save(user);
         return modelMapper.map(user, UserResponse.class);
@@ -47,8 +50,7 @@ public class UserService {
         }
         User user = userRepository.findByEmail(request.getEmail());
         if (passwordEncoder.matches(password, user.getPassword())) {
-            AuthResponse jwtToken = jwtService.generateToken(user);
-            return jwtToken;
+            return jwtService.generateToken(user);
         }
         throw new InvalidLoginException();
     }
