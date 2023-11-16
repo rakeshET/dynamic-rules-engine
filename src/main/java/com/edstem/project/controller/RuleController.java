@@ -16,13 +16,13 @@ import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/v1/rules")
+@RequestMapping("/api/rules")
 public class RuleController {
 
     private final RuleService ruleService;
 
-    @PreAuthorize("hasRole('ADMIN')")
-    @PostMapping("admin/create")
+
+    @PostMapping("/create")
     public ResponseEntity<RuleResponse> createRule(@RequestBody RuleRequest request) {
         RuleResponse response = ruleService.createRule(request);
         return ResponseEntity.ok(response);
@@ -32,7 +32,7 @@ public class RuleController {
          ruleService.deleteRule(id);
          return ResponseEntity.ok("Rule Successfully Deleted");
     }
-    @PutMapping("/{ruleId}")
+    @PutMapping("/update/{ruleId}")
     public ResponseEntity<RuleResponse> updateRule(@PathVariable Long ruleId, @RequestBody RuleRequest request) {
         RuleResponse response = ruleService.updateRule(ruleId, request);
         HttpStatus status = response.getStatus().equals("Success") ? HttpStatus.OK : HttpStatus.BAD_REQUEST;

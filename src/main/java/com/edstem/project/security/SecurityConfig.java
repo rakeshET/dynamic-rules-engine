@@ -27,7 +27,7 @@ public class SecurityConfig {
     private UserRepository userRepository;
 
     @Bean
-    //authentication
+
     public UserDetailsService userDetailsService() {
         return new UserInfoUserDetailsService(userRepository);
     }
@@ -37,11 +37,11 @@ public class SecurityConfig {
         return http
             .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers(HttpMethod.POST, "/user/signup").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/user/login").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/user/**").permitAll()
+                        .requestMatchers("/api/rules/create").hasAuthority("ADMIN")
+                        .requestMatchers("/api/rules/update").hasAuthority("ADMIN")
+                        .requestMatchers("/api/rules/**").permitAll()
                         .requestMatchers("/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**", "/swagger-resources/**").permitAll()
-//                        .requestMatchers("/v1/rules/**").permitAll()
-                        .requestMatchers("/v1/rules/admin/create").hasAuthority("ADMIN")
                         .requestMatchers("/error/**").permitAll()
                         .anyRequest().authenticated()
                 )

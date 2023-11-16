@@ -1,14 +1,85 @@
 {
 	"info": {
-		"_postman_id": "6437715f-b6df-4b40-8db7-381bfda30ae0",
+		"_postman_id": "686fcdd0-0245-46dc-8166-5d27ab4263df",
 		"name": "Dynamic Rules",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "17020731"
 	},
 	"item": [
 		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "userLogin",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"anjalikprabhakaranuser@gmail.com\",\r\n    \"password\":\"password@123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/user/login",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "signUp",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"anjalik1\",\r\n    \"email\": \"anjalikprabhakaranuser@gmail.com\",\r\n    \"password\": \"password@123\",\r\n    \"role\": \"USER\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/user/signup",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"signup"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "rule1-discount",
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "",
+							"type": "string"
+						}
+					]
+				},
 				"method": "POST",
 				"header": [],
 				"body": {
@@ -21,12 +92,12 @@
 					}
 				},
 				"url": {
-					"raw": "{{host}}/v1/rules/create",
+					"raw": "{{host}}/api/rules/create",
 					"host": [
 						"{{host}}"
 					],
 					"path": [
-						"v1",
+						"api",
 						"rules",
 						"create"
 					]
@@ -37,6 +108,16 @@
 		{
 			"name": "rule2-fraudDetection",
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhbmphbGlrcHJhYmhha2FyYW4xMTExMUBnbWFpbC5jb20iLCJpYXQiOjE3MDAwNDk4MDIsImV4cCI6MTcwMDA1MTYwMn0.TJoCuIGcF0k68bbxSeBr0dIuJ3ScefqbLniC5Vv3XvY",
+							"type": "string"
+						}
+					]
+				},
 				"method": "POST",
 				"header": [],
 				"body": {
@@ -49,13 +130,14 @@
 					}
 				},
 				"url": {
-					"raw": "{{host}}/v1/rules/create",
+					"raw": "{{host}}/api/rules/admin/create",
 					"host": [
 						"{{host}}"
 					],
 					"path": [
-						"v1",
+						"api",
 						"rules",
+						"admin",
 						"create"
 					]
 				}
@@ -65,6 +147,16 @@
 		{
 			"name": "rule3-replenishStock",
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhbmphbGlrcHJhYmhha2FyYW4xMTExMTFAZ21haWwuY29tIiwiaWF0IjoxNzAwMDQ5ODgwLCJleHAiOjE3MDAwNTE2ODB9.e5v4711C5glEdXC4XaVBJq6tRUKi9W4dAt_l58Ok6u0",
+							"type": "string"
+						}
+					]
+				},
 				"method": "POST",
 				"header": [],
 				"body": {
@@ -77,13 +169,14 @@
 					}
 				},
 				"url": {
-					"raw": "{{host}}/v1/rules/create",
+					"raw": "{{host}}/api/rules/admin/create",
 					"host": [
 						"{{host}}"
 					],
 					"path": [
-						"v1",
+						"api",
 						"rules",
+						"admin",
 						"create"
 					]
 				}
@@ -93,6 +186,16 @@
 		{
 			"name": "Rule4-memberShipRenewal",
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhbmphbGlrcHJhYmhha2FyYW5BQGdtYWlsLmNvbSIsImlhdCI6MTcwMDA1MTE5OSwiZXhwIjoxNzAwMDUyOTk5fQ.-CPmGpS4PQFNv0cXQEvtgOENV10W7gMpw8veRqk9sts",
+							"type": "string"
+						}
+					]
+				},
 				"method": "POST",
 				"header": [],
 				"body": {
@@ -105,13 +208,14 @@
 					}
 				},
 				"url": {
-					"raw": "{{host}}/v1/rules/create",
+					"raw": "{{host}}/api/rules/admin/create",
 					"host": [
 						"{{host}}"
 					],
 					"path": [
-						"v1",
+						"api",
 						"rules",
+						"admin",
 						"create"
 					]
 				}
@@ -121,15 +225,25 @@
 		{
 			"name": "GetAllRules",
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhbmphbGlrcHJhYmhha2FyYW51c2VyQGdtYWlsLmNvbSIsImlhdCI6MTcwMDExODUxOSwiZXhwIjoxNzAwMTIwMzE5fQ.vRVfkXsg6mieaNc0AKO21SGeLFB_q3WalABm4A_Ga4M",
+							"type": "string"
+						}
+					]
+				},
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{host}}/v1/rules/all",
+					"raw": "{{host}}/api/rules/all",
 					"host": [
 						"{{host}}"
 					],
 					"path": [
-						"v1",
+						"api",
 						"rules",
 						"all"
 					]
@@ -152,12 +266,12 @@
 					}
 				},
 				"url": {
-					"raw": "{{host}}/v1/rules/evaluate",
+					"raw": "{{host}}/api/rules/evaluate",
 					"host": [
 						"{{host}}"
 					],
 					"path": [
-						"v1",
+						"api",
 						"rules",
 						"evaluate"
 					]
@@ -180,12 +294,12 @@
 					}
 				},
 				"url": {
-					"raw": "{{host}}/v1/rules/evaluate",
+					"raw": "{{host}}/api/rules/evaluate",
 					"host": [
 						"{{host}}"
 					],
 					"path": [
-						"v1",
+						"api",
 						"rules",
 						"evaluate"
 					]
@@ -208,12 +322,12 @@
 					}
 				},
 				"url": {
-					"raw": "{{host}}/v1/rules/evaluate",
+					"raw": "{{host}}/api/rules/evaluate",
 					"host": [
 						"{{host}}"
 					],
 					"path": [
-						"v1",
+						"api",
 						"rules",
 						"evaluate"
 					]
@@ -236,12 +350,12 @@
 					}
 				},
 				"url": {
-					"raw": "{{host}}/v1/rules/evaluate",
+					"raw": "{{host}}/api/rules/evaluate",
 					"host": [
 						"{{host}}"
 					],
 					"path": [
-						"v1",
+						"api",
 						"rules",
 						"evaluate"
 					]
