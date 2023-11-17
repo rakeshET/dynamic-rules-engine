@@ -1,15 +1,15 @@
 package com.edstem.project.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.edstem.project.converter.MapConverter;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.HashMap;
+import java.util.Map;
 
 
 @Entity
@@ -26,7 +26,8 @@ public class Action {
 
     @Column(name = "action_type")
     private String actionType;
-
-    private double actionValue;
+    @Column(name = "action_value")
+    @Convert(converter = MapConverter.class)
+    private Map<String , String> actionValue = new HashMap<>();
 
 }
