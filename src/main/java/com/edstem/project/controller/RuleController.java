@@ -2,6 +2,7 @@ package com.edstem.project.controller;
 import com.edstem.project.contract.request.RuleRequest;
 import com.edstem.project.contract.response.AllRuleResponse;
 import com.edstem.project.contract.response.RuleResponse;
+import com.edstem.project.model.Rule;
 import com.edstem.project.service.RuleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -32,11 +33,10 @@ public class RuleController {
          ruleService.deleteRule(id);
          return ResponseEntity.ok("Rule Successfully Deleted");
     }
-    @PutMapping("/update/{ruleId}")
-    public ResponseEntity<RuleResponse> updateRule(@PathVariable Long ruleId, @RequestBody RuleRequest request) {
-        RuleResponse response = ruleService.updateRule(ruleId, request);
-        HttpStatus status = response.getStatus().equals("Success") ? HttpStatus.OK : HttpStatus.BAD_REQUEST;
-        return new ResponseEntity<>(response, status);
+    @PutMapping("/{id}")
+    public ResponseEntity<RuleResponse> updateRule(@PathVariable Long id, @RequestBody RuleRequest request) {
+        RuleResponse response = ruleService.updateRule(id, request);
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/all")
@@ -45,9 +45,9 @@ public class RuleController {
         return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/evaluate")
-    public ResponseEntity<?> evaluateRules(@RequestBody Map<String, Object> inputData) {
-        Object result = ruleService.evaluateRules(inputData);
-        return ResponseEntity.ok(result);
-    }
+//    @PostMapping("/evaluate")
+//    public ResponseEntity<?> evaluateRules(@RequestBody Map<String, Object> inputData) {
+//        Object result = ruleService.evaluateRules(inputData);
+//        return ResponseEntity.ok(result);
+//    }
 }

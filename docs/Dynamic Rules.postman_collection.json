@@ -1,9 +1,8 @@
 {
 	"info": {
-		"_postman_id": "686fcdd0-0245-46dc-8166-5d27ab4263df",
+		"_postman_id": "7bbdf9be-6507-4194-8fda-22c036164adb",
 		"name": "Dynamic Rules",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "17020731"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
@@ -75,7 +74,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhbmphbGlrcHJhYmhha2FyYW51c2VyMTExQGdtYWlsLmNvbSIsImlhdCI6MTcwMDIwMTYzNSwiZXhwIjoxNzAwMjA1MjM1fQ.WtMinyHbyd-ZRgzQktOwEzK0OdO1-ww9trEMSTUQtIU",
 							"type": "string"
 						}
 					]
@@ -84,7 +83,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n  \"ruleId\": \"discountForVIP\",\r\n  \"description\": \"Apply a 10% discount for VIP customers on their order\",\r\n  \"condition\": {\r\n    \"type\": \"AND\",\r\n    \"clauses\": [\r\n      {\r\n        \"field\": \"customer.status\",\r\n        \"operation\": \"EQUALS\",\r\n        \"value\": \"VIP\"\r\n      },\r\n      {\r\n        \"field\": \"order.total\",\r\n        \"operation\": \"GREATER_THAN\",\r\n        \"value\": 100.00\r\n      }\r\n    ]\r\n  },\r\n  \"actions\": [\r\n    {\r\n      \"actionType\": \"DISCOUNT\",\r\n      \"actionValue\": 10\r\n    }\r\n  ]\r\n}\r\n}",
+					"raw": "{\r\n  \"ruleId\": \"discountForVIP\",\r\n  \"description\": \"Apply a 10% discount for VIP customers on their order\",\r\n  \"condition\": {\r\n    \"type\": \"AND\",\r\n    \"clauses\": [\r\n      {\r\n        \"field\": \"customer.status\",\r\n        \"operation\": \"EQUALS\",\r\n        \"value\": \"VIP\"\r\n      },\r\n      {\r\n        \"field\": \"order.total\",\r\n        \"operation\": \"GREATER_THAN\",\r\n        \"value\": 100.00\r\n      }\r\n    ]\r\n  },\r\n  \"actions\": [\r\n    {\r\n      \"actionType\": \"DISCOUNT\",\r\n      \"actionValue\": {\r\n        \"discountPercent\": \"10\"\r\n      }\r\n    }\r\n  ]\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -92,10 +91,12 @@
 					}
 				},
 				"url": {
-					"raw": "{{host}}/api/rules/create",
+					"raw": "http://localhost:8080/api/rules/create",
+					"protocol": "http",
 					"host": [
-						"{{host}}"
+						"localhost"
 					],
+					"port": "8080",
 					"path": [
 						"api",
 						"rules",
@@ -113,7 +114,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhbmphbGlrcHJhYmhha2FyYW4xMTExMUBnbWFpbC5jb20iLCJpYXQiOjE3MDAwNDk4MDIsImV4cCI6MTcwMDA1MTYwMn0.TJoCuIGcF0k68bbxSeBr0dIuJ3ScefqbLniC5Vv3XvY",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhbmphbGlrcHJhYmhha2FyYW51c2VyMTExQGdtYWlsLmNvbSIsImlhdCI6MTcwMDIwMTYzNSwiZXhwIjoxNzAwMjA1MjM1fQ.WtMinyHbyd-ZRgzQktOwEzK0OdO1-ww9trEMSTUQtIU",
 							"type": "string"
 						}
 					]
@@ -122,7 +123,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "\r\n    {\r\n        \"ruleId\": \"fraudDetection\",\r\n        \"description\": \"Flag an order for review if the amount is unusually high\",\r\n        \"condition\": {\r\n            \"type\": \"OR\",\r\n            \"clauses\": [\r\n                {\r\n                    \"field\": \"order.amount\",\r\n                    \"operation\": \"GREATER_THAN\",\r\n                    \"value\": 5000\r\n                },\r\n                {\r\n                    \"field\": \"order.paymentMethod\",\r\n                    \"operation\": \"EQUALS\",\r\n                    \"value\": \"wire_transfer\"\r\n                }\r\n            ]\r\n        },\r\n        \"actions\": [\r\n            {\r\n                \"actionType\": \"FLAG_FOR_REVIEW\",\r\n                \"reason\": \"Potential fraud detected\"\r\n            }\r\n        ]\r\n    }",
+					"raw": "\r\n    {\r\n        \"ruleId\": \"fraudDetection\",\r\n        \"description\": \"Flag an order for review if the amount is unusually high\",\r\n        \"condition\": {\r\n            \"type\": \"OR\",\r\n            \"clauses\": [\r\n                {\r\n                    \"field\": \"order.amount\",\r\n                    \"operation\": \"GREATER_THAN\",\r\n                    \"value\": 5000\r\n                },\r\n                {\r\n                    \"field\": \"order.paymentMethod\",\r\n                    \"operation\": \"EQUALS\",\r\n                    \"value\": \"wire_transfer\"\r\n                }\r\n            ]\r\n        },\r\n       \"actions\": [\r\n           {\r\n               \"actionType\": \"FLAG_FOR_REVIEW\",\r\n               \"actionValue\": {\r\n                   \"reason\": \"Potential fraud detected\"\r\n                }\r\n            }\r\n        ]\r\n    }",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -130,14 +131,15 @@
 					}
 				},
 				"url": {
-					"raw": "{{host}}/api/rules/admin/create",
+					"raw": "http://localhost:8080/api/rules/create",
+					"protocol": "http",
 					"host": [
-						"{{host}}"
+						"localhost"
 					],
+					"port": "8080",
 					"path": [
 						"api",
 						"rules",
-						"admin",
 						"create"
 					]
 				}
@@ -152,7 +154,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhbmphbGlrcHJhYmhha2FyYW4xMTExMTFAZ21haWwuY29tIiwiaWF0IjoxNzAwMDQ5ODgwLCJleHAiOjE3MDAwNTE2ODB9.e5v4711C5glEdXC4XaVBJq6tRUKi9W4dAt_l58Ok6u0",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhbmphbGlrcHJhYmhha2FyYW51c2VyMTExQGdtYWlsLmNvbSIsImlhdCI6MTcwMDIwMTYzNSwiZXhwIjoxNzAwMjA1MjM1fQ.WtMinyHbyd-ZRgzQktOwEzK0OdO1-ww9trEMSTUQtIU",
 							"type": "string"
 						}
 					]
@@ -161,7 +163,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": " {\r\n        \"ruleId\": \"inventoryReplenishment\",\r\n        \"description\": \"Replenish inventory when stock falls below the minimum level\",\r\n        \"condition\": {\r\n            \"type\": null,\r\n            \"clauses\": [\r\n                {\r\n                    \"field\": \"product.stockLevel\",\r\n                    \"operation\": \"LESS_THAN\",\r\n                    \"value\": 1000\r\n                }\r\n                \r\n            ]\r\n        },\r\n        \"actions\": [\r\n            {\r\n                \"actionType\": \"REPLENISH_STOCK\",\r\n               \"actionValue\": 10\r\n            }\r\n        ]\r\n    }",
+					"raw": " {\r\n        \"ruleId\": \"inventoryReplenishment\",\r\n        \"description\": \"Replenish inventory when stock falls below the minimum level\",\r\n        \"condition\": {\r\n            \"type\": null,\r\n            \"clauses\": [\r\n                {\r\n                    \"field\": \"product.stockLevel\",\r\n                    \"operation\": \"LESS_THAN\",\r\n                    \"value\": 1000\r\n                }\r\n                \r\n            ]\r\n        },\r\n        \"actions\": [\r\n           {\r\n               \"actionType\": \"REPLENISH_STOCK\",\r\n               \"actionValue\": {\r\n                   \"quantity\": \"50\"\r\n                }\r\n            }\r\n        ]\r\n    }",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -169,14 +171,15 @@
 					}
 				},
 				"url": {
-					"raw": "{{host}}/api/rules/admin/create",
+					"raw": "http://localhost:8080/api/rules/create",
+					"protocol": "http",
 					"host": [
-						"{{host}}"
+						"localhost"
 					],
+					"port": "8080",
 					"path": [
 						"api",
 						"rules",
-						"admin",
 						"create"
 					]
 				}
@@ -191,7 +194,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhbmphbGlrcHJhYmhha2FyYW5BQGdtYWlsLmNvbSIsImlhdCI6MTcwMDA1MTE5OSwiZXhwIjoxNzAwMDUyOTk5fQ.-CPmGpS4PQFNv0cXQEvtgOENV10W7gMpw8veRqk9sts",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhbmphbGlrcHJhYmhha2FyYW51c2VyMTExQGdtYWlsLmNvbSIsImlhdCI6MTcwMDIwMTYzNSwiZXhwIjoxNzAwMjA1MjM1fQ.WtMinyHbyd-ZRgzQktOwEzK0OdO1-ww9trEMSTUQtIU",
 							"type": "string"
 						}
 					]
@@ -200,7 +203,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "    {\r\n        \"ruleId\": \"membershipRenewal\",\r\n        \"description\": \"Renew premium membership automatically if customer has enough\",\r\n        \"condition\": {\r\n            \"type\": null,\r\n            \"clauses\": [\r\n                {\r\n                    \"field\": \"customer.loyaltyPoints\",\r\n                    \"operation\": \"GREATER_THAN_EQUAL\",\r\n                    \"value\": 1000\r\n                }\r\n                \r\n            ]\r\n        },\r\n        \"actions\": [\r\n            {\r\n                \"actionType\": \"RENEW_MEMBERSHIP\",\r\n                \"membershipType\": \"PREMIUM\"\r\n            }\r\n        ]\r\n    }",
+					"raw": "    {\r\n        \"ruleId\": \"membershipRenewal\",\r\n        \"description\": \"Renew premium membership automatically if customer has enough\",\r\n        \"condition\": {\r\n            \"type\": null,\r\n            \"clauses\": [\r\n                {\r\n                    \"field\": \"customer.loyaltyPoints\",\r\n                    \"operation\": \"GREATER_THAN_EQUAL\",\r\n                    \"value\": 1000\r\n                }\r\n                \r\n            ]\r\n        },\r\n        \"actions\": [\r\n           {\r\n               \"actionType\": \"RENEW_MEMBERSHIP\",\r\n               \"actionValue\": {\r\n                   \"membershipType\": \"PREMIUM\"\r\n                }\r\n            }\r\n        ]\r\n    }",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -208,14 +211,15 @@
 					}
 				},
 				"url": {
-					"raw": "{{host}}/api/rules/admin/create",
+					"raw": "http://localhost:8080/api/rules/create",
+					"protocol": "http",
 					"host": [
-						"{{host}}"
+						"localhost"
 					],
+					"port": "8080",
 					"path": [
 						"api",
 						"rules",
-						"admin",
 						"create"
 					]
 				}
@@ -230,7 +234,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhbmphbGlrcHJhYmhha2FyYW51c2VyQGdtYWlsLmNvbSIsImlhdCI6MTcwMDExODUxOSwiZXhwIjoxNzAwMTIwMzE5fQ.vRVfkXsg6mieaNc0AKO21SGeLFB_q3WalABm4A_Ga4M",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhbmphbGlrcHJhYmhha2FyYW51c2VyMTExQGdtYWlsLmNvbSIsImlhdCI6MTcwMDIwMTYzNSwiZXhwIjoxNzAwMjA1MjM1fQ.WtMinyHbyd-ZRgzQktOwEzK0OdO1-ww9trEMSTUQtIU",
 							"type": "string"
 						}
 					]
@@ -238,10 +242,12 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{host}}/api/rules/all",
+					"raw": "http://localhost:8080/api/rules/all",
+					"protocol": "http",
 					"host": [
-						"{{host}}"
+						"localhost"
 					],
+					"port": "8080",
 					"path": [
 						"api",
 						"rules",
@@ -358,6 +364,77 @@
 						"api",
 						"rules",
 						"evaluate"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DeleteRuleById",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhbmphbGlrcHJhYmhha2FyYW51c2VyMTExQGdtYWlsLmNvbSIsImlhdCI6MTcwMDIwMTYzNSwiZXhwIjoxNzAwMjA1MjM1fQ.WtMinyHbyd-ZRgzQktOwEzK0OdO1-ww9trEMSTUQtIU",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/rules/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"rules",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UpdateRuleById",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhbmphbGlrcHJhYmhha2FyYW51c2VyMTExQGdtYWlsLmNvbSIsImlhdCI6MTcwMDIwMTYzNSwiZXhwIjoxNzAwMjA1MjM1fQ.WtMinyHbyd-ZRgzQktOwEzK0OdO1-ww9trEMSTUQtIU",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n        \"id\": 2,\r\n        \"ruleId\": \"fraudDetection\",\r\n        \"description\": \"Flag an order for review if the amount is unusually high\",\r\n        \"condition\": {\r\n            \"type\": \"AND\",\r\n            \"clauses\": [\r\n                {\r\n                    \"field\": \"order.amount\",\r\n                    \"operation\": \"GREATER_THAN\",\r\n                    \"value\": \"5000\"\r\n                },\r\n                {\r\n                    \"field\": \"order.paymentMethod\",\r\n                    \"operation\": \"EQUALS\",\r\n                    \"value\": \"wire_transfer\"\r\n                }\r\n            ]\r\n        },\r\n        \"actions\": [\r\n            {\r\n                \"actionType\": \"FLAG_FOR_REVIEW\",\r\n                \"actionValue\": {\r\n                    \"reason\": \"Potential fraud detected\"\r\n                }\r\n            }\r\n        ]\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/rules/2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"rules",
+						"2"
 					]
 				}
 			},
