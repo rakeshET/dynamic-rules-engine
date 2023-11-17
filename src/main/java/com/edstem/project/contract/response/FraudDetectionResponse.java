@@ -10,7 +10,7 @@ import lombok.*;
 public class FraudDetectionResponse {
     private String orderId;
     private double amount;
-    private boolean flag;
+    private boolean potentialFraudDetected=false;
 
 
 

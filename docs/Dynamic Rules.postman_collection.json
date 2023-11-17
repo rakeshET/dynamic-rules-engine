@@ -1,8 +1,9 @@
 {
 	"info": {
-		"_postman_id": "7bbdf9be-6507-4194-8fda-22c036164adb",
+		"_postman_id": "a287ae3f-b270-43a9-8585-1ff5fdb3209a",
 		"name": "Dynamic Rules",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "17020731"
 	},
 	"item": [
 		{
@@ -264,7 +265,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n  \"orderId\": \"123456\",\r\n  \"customer\": {\r\n    \"id\": \"cust101\",\r\n    \"name\": \"John Doe\",\r\n    \"status\": \"VIP\"\r\n  },\r\n  \"order\": {\r\n    \"total\": 10000.00,\r\n    \"items\": [\r\n      {\r\n        \"productId\": \"prod-200\",\r\n        \"name\": \"Bluetooth Speaker\",\r\n        \"price\": 150.0,\r\n        \"quantity\": 1\r\n      }\r\n    ],\r\n    \"date\": \"2023-11-03\"\r\n  }\r\n}",
+					"raw": "{\r\n  \"orderId\": \"123456\",\r\n  \"customer\": {\r\n    \"id\": \"cust101\",\r\n    \"name\": \"John Doe\",\r\n    \"status\": \"VIP\"\r\n  },\r\n  \"order\": {\r\n    \"total\": 90000.00,\r\n    \"items\": [\r\n      {\r\n        \"productId\": \"prod-200\",\r\n        \"name\": \"Bluetooth Speaker\",\r\n        \"price\": 150.0,\r\n        \"quantity\": 1\r\n      }\r\n    ],\r\n    \"date\": \"2023-11-03\"\r\n  }\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -272,14 +273,15 @@
 					}
 				},
 				"url": {
-					"raw": "{{host}}/api/rules/evaluate",
+					"raw": "{{host}}/api/rules/evaluate/discountForVIP",
 					"host": [
 						"{{host}}"
 					],
 					"path": [
 						"api",
 						"rules",
-						"evaluate"
+						"evaluate",
+						"discountForVIP"
 					]
 				}
 			},
@@ -300,14 +302,15 @@
 					}
 				},
 				"url": {
-					"raw": "{{host}}/api/rules/evaluate",
+					"raw": "{{host}}/api/rules/evaluate/fraudDetection",
 					"host": [
 						"{{host}}"
 					],
 					"path": [
 						"api",
 						"rules",
-						"evaluate"
+						"evaluate",
+						"fraudDetection"
 					]
 				}
 			},
@@ -320,7 +323,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n  \"productId\": \"prod-305\",\r\n  \"product\": {\r\n    \"name\": \"Wireless Mouse\",\r\n    \"stockLevel\": 10.0\r\n  }\r\n}",
+					"raw": "{\r\n  \"productId\": \"prod-305\",\r\n  \"product\": {\r\n    \"name\": \"Wireless Mouse\",\r\n    \"stockLevel\": 1000\r\n  }\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -328,14 +331,15 @@
 					}
 				},
 				"url": {
-					"raw": "{{host}}/api/rules/evaluate",
+					"raw": "{{host}}/api/rules/evaluate/inventoryReplenishment",
 					"host": [
 						"{{host}}"
 					],
 					"path": [
 						"api",
 						"rules",
-						"evaluate"
+						"evaluate",
+						"inventoryReplenishment"
 					]
 				}
 			},
@@ -348,7 +352,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n\"orderId\": \"789101\",\r\n\"customer\": {\r\n    \"id\":\"12345\",\r\n\"loyaltyPoints\": 10,\r\n\"name\": \"Jane Smith\"\r\n}\r\n}\r\n",
+					"raw": "{\r\n\"orderId\": \"789101\",\r\n\"customer\": {\r\n    \"id\":\"12345\",\r\n\"loyaltyPoints\": 10000,\r\n\"name\": \"Jane Smith\"\r\n}\r\n}\r\n",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -356,14 +360,15 @@
 					}
 				},
 				"url": {
-					"raw": "{{host}}/api/rules/evaluate",
+					"raw": "{{host}}/api/rules/evaluate/membershipRenewal",
 					"host": [
 						"{{host}}"
 					],
 					"path": [
 						"api",
 						"rules",
-						"evaluate"
+						"evaluate",
+						"membershipRenewal"
 					]
 				}
 			},

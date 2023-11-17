@@ -8,7 +8,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ProductResponse {
+public class InventoryReplenishmentResponse {
     private String productId;
-    private Double stockLevel;
+    private Integer stockLevel;
 }

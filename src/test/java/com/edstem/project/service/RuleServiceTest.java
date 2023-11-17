@@ -15,6 +15,7 @@ import org.mockito.MockitoAnnotations;
 import org.modelmapper.ModelMapper;
 import java.util.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.*;
 
 public class RuleServiceTest {
@@ -132,9 +133,9 @@ public class RuleServiceTest {
         ArrayList<Rule> ruleList = new ArrayList<>();
         ruleList.add(rule);
         when(ruleRepository.findAll()).thenReturn(ruleList);
-        Object actualEvaluateRulesResult = ruleService.evaluateRules(new HashMap<>());
-        verify(ruleRepository).findAll();
-        assertEquals("No Rule Found", ((Map<String, String>) actualEvaluateRulesResult).get("ruleId"));
+        Object actualEvaluateRulesResult = ruleService.evaluateRules("ruleId",new HashMap<>());
+        verify(ruleRepository).findByRuleId("ruleId");
+        assertEquals("No Rule Matched", ((Map<String, String>) actualEvaluateRulesResult).get("message"));
         assertEquals(1, ((Map<String, String>) actualEvaluateRulesResult).size());
     }
 }

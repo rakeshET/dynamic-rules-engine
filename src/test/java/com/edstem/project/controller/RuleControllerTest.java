@@ -112,15 +112,13 @@ public class RuleControllerTest {
     }
     @Test
     void testEvaluateRules() throws Exception {
-        when(ruleService.evaluateRules(Mockito.<Map<String, Object>>any())).thenReturn("Evaluate Rules");
+        when(ruleService.evaluateRules(Mockito.anyString(),Mockito.<Map<String, Object>>any())).thenReturn("Evaluate Rules");
 
         HashMap<Object, Object> objectObjectMap = new HashMap<>();
         objectObjectMap.put((Object) "stockLevel", 10.0d);
-
         HashMap<Object, Object> objectObjectMap2 = new HashMap<>();
         objectObjectMap2.put((Object) "total", 10.0d);
         objectObjectMap2.put((Object) "amount", 10.0d);
-
         HashMap<Object, Object> objectObjectMap3 = new HashMap<>();
         objectObjectMap3.put((Object) "loyaltyPoints", 1);
         objectObjectMap3.put((Object) "id", "abc");
@@ -132,10 +130,8 @@ public class RuleControllerTest {
         stringObjectMap.put((String) "order", objectObjectMap2);
         stringObjectMap.put((String) "orderId", "abc");
         stringObjectMap.put((String) "customer", objectObjectMap3);
-        stringObjectMap.put((String) "product", "10");
-        stringObjectMap.put((String) "customer", "10");
         String content = (new ObjectMapper()).writeValueAsString(stringObjectMap);
-        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.post("/v1/rules/evaluate")
+        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.post("/api/rules/evaluate/ruleId")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(content);
         MockMvcBuilders.standaloneSetup(ruleController)
