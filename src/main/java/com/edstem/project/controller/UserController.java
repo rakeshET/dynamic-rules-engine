@@ -7,7 +7,6 @@ import com.edstem.project.contract.response.UserResponse;
 import com.edstem.project.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import com.edstem.project.contract.response.SignUpResponse;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
