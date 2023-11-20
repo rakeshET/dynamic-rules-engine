@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "a287ae3f-b270-43a9-8585-1ff5fdb3209a",
+		"_postman_id": "737b9bba-56f8-4d46-a48b-71c026960429",
 		"name": "Dynamic Rules",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "17020731"
@@ -228,6 +228,44 @@
 			"response": []
 		},
 		{
+			"name": "rule5-lowStockNotification",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBnbWFpbC5jb20iLCJpYXQiOjE3MDA0NDg0MTcsImV4cCI6MTcwMDQ1MjAxN30.uyAZPDtqDKsiiCh4q17pbSQHF2l6PNiwNvOedQHeHT0",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"ruleId\": \"lowStockNotification\",\r\n    \"description\": \"Notify the manager if the stock for any product goes below a critical level\",\r\n    \"condition\": {\r\n        \"type\": null,\r\n        \"clauses\": [\r\n            {\r\n                \"field\": \"product.stockLevel\",\r\n                \"operation\": \"LESS_THAN\",\r\n                \"value\": 5\r\n            }\r\n        ]\r\n    },\r\n    \"actions\": [\r\n        {\r\n            \"actionType\": \"SEND_NOTIFICATION\",\r\n            \"actionValue\": {\r\n                \"method\": \"EMAIL\",\r\n                \"recipient\": \"stock.manager@example.com\",\r\n                \"message\": \"Stock for product {{product.name}} is below critical level.\"\r\n            }\r\n        }\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/rules/create",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"rules",
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "GetAllRules",
 			"request": {
 				"auth": {
@@ -375,6 +413,35 @@
 			"response": []
 		},
 		{
+			"name": "evaluateRule5-lowStockNotification",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"productId\": \"prod-305\",\r\n    \"product\": {\r\n        \"name\": \"Wireless Mouse\",\r\n        \"stockLevel\": 5\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/rules/evaluate/lowStockNotification",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"rules",
+						"evaluate",
+						"lowStockNotification"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "DeleteRuleById",
 			"request": {
 				"auth": {
@@ -422,7 +489,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n        \"id\": 2,\r\n        \"ruleId\": \"fraudDetection\",\r\n        \"description\": \"Flag an order for review if the amount is unusually high\",\r\n        \"condition\": {\r\n            \"type\": \"AND\",\r\n            \"clauses\": [\r\n                {\r\n                    \"field\": \"order.amount\",\r\n                    \"operation\": \"GREATER_THAN\",\r\n                    \"value\": \"5000\"\r\n                },\r\n                {\r\n                    \"field\": \"order.paymentMethod\",\r\n                    \"operation\": \"EQUALS\",\r\n                    \"value\": \"wire_transfer\"\r\n                }\r\n            ]\r\n        },\r\n        \"actions\": [\r\n            {\r\n                \"actionType\": \"FLAG_FOR_REVIEW\",\r\n                \"actionValue\": {\r\n                    \"reason\": \"Potential fraud detected\"\r\n                }\r\n            }\r\n        ]\r\n    }",
+					"raw": "{\r\n    \"id\": 2,\r\n    \"ruleId\": \"fraudDetection\",\r\n    \"description\": \"Flag an order for review if the amount is unusually high\",\r\n    \"condition\": {\r\n        \"type\": \"AND\",\r\n        \"clauses\": [\r\n            {\r\n                \"field\": \"order.amount\",\r\n                \"operation\": \"GREATER_THAN\",\r\n                \"value\": \"5000\"\r\n            },\r\n            {\r\n                \"field\": \"order.paymentMethod\",\r\n                \"operation\": \"EQUALS\",\r\n                \"value\": \"wire_transfer\"\r\n            }\r\n        ]\r\n    },\r\n    \"actions\": [\r\n        {\r\n            \"actionType\": \"FLAG_FOR_REVIEW\",\r\n            \"actionValue\": {\r\n                \"reason\": \"Potential fraud detected\"\r\n            }\r\n        }\r\n    ]\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"

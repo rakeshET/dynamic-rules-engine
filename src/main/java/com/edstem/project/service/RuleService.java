@@ -13,6 +13,10 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 
@@ -26,6 +30,11 @@ public class RuleService {
 
     private final RuleRepository ruleRepository;
     private final ModelMapper modelMapper;
+    @Autowired
+    private JavaMailSender javaMailSender;
+
+    @Value("${spring.mail.username}")
+    private String sender;
 
 
     public RuleResponse createRule(RuleRequest request) {
@@ -187,6 +196,7 @@ public class RuleService {
                 case "FLAG_FOR_REVIEW" -> evaluateFlagForReview(action, inputData);
                 case "REPLENISH_STOCK" -> evaluateReplenishStock(action, inputData);
                 case "RENEW_MEMBERSHIP" -> renewMemberShip(action, inputData);
+                case "SEND_NOTIFICATION" -> sendNotification(action, inputData);
                 default -> throw new IllegalArgumentException("Unknown action type: " + action);
             };
         }
@@ -227,5 +237,25 @@ public class RuleService {
         String membershipType=action.getActionValue().get("membershipType");
         return new MembershipRenewalResponse(customerId, loyaltyPoint, membershipType, true);
 
+    }
+
+    private Object sendNotification(Action action, Map<String, Object> inputData) {
+        Map<String, Object> product = (Map<String, Object>) inputData.get("product");
+        SimpleMailMessage mailMessage = new SimpleMailMessage();
+        String recipient = action.getActionValue().get("recipient");
+        String content = action.getActionValue().get("message").replace("{{product.name}}", (String) product.get("name"));
+        String subject = "Low Stock";
+        mailMessage.setFrom(sender);
+        mailMessage.setTo(recipient);
+        mailMessage.setText(content);
+        mailMessage.setSubject(subject);
+        javaMailSender.send(mailMessage);
+        return new HashMap<String, Boolean>() {
+            {
+                put("success", true);
+
+
+            }
+        };
     }
 }
