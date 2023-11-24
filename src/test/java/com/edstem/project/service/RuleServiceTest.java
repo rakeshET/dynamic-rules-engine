@@ -1,5 +1,4 @@
 package com.edstem.project.service;
-
 import com.edstem.project.contract.request.RuleCondition;
 import com.edstem.project.contract.request.RuleRequest;
 import com.edstem.project.contract.response.AllRuleResponse;
@@ -8,30 +7,35 @@ import com.edstem.project.model.Action;
 import com.edstem.project.model.Condition;
 import com.edstem.project.model.Rule;
 import com.edstem.project.repository.RuleRepository;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+
 import java.util.*;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.*;
 
-public class RuleServiceTest {
+@ContextConfiguration(classes = {RuleService.class})
+@ExtendWith(SpringExtension.class)
+class RuleServiceTest {
+    @MockBean
+    private JavaMailSender javaMailSender;
 
-    private RuleRepository ruleRepository;
+    @MockBean
     private ModelMapper modelMapper;
-    private RuleService ruleService;
 
-    @BeforeEach
-    public void init() {
-        MockitoAnnotations.openMocks(this);
-        ruleRepository = Mockito.mock(RuleRepository.class);
-        modelMapper = new ModelMapper();
-        ruleService =
-                new RuleService(ruleRepository, modelMapper);
-    }
+    @MockBean
+    private RuleRepository ruleRepository;
+
+    @Autowired
+    private RuleService ruleService;
 
     @Test
     void testCreateRule() {
@@ -42,7 +46,6 @@ public class RuleServiceTest {
         assertEquals("Error", actualCreateRuleResult.getStatus());
         assertEquals("Failed to create the rule: Success", actualCreateRuleResult.getMessage());
     }
-
     @Test
     void testGetAllRules() {
         Condition condition = new Condition();
@@ -84,24 +87,21 @@ public class RuleServiceTest {
         assertEquals(actions, condition3.getClauses());
         assertEquals(actions, getResult.getActions());
     }
-
-    @Test
-    void testUpdateRule() {
-        Optional<Rule> emptyResult = Optional.empty();
-        when(ruleRepository.findById(Mockito.<Long>any())).thenReturn(emptyResult);
-        RuleResponse actualUpdateRuleResult = ruleService.updateRule(1L, new RuleRequest());
-        verify(ruleRepository).findById(Mockito.<Long>any());
-        assertEquals("Error", actualUpdateRuleResult.getStatus());
-        assertEquals("Rule not found with ID: 1", actualUpdateRuleResult.getMessage());
-    }
-
+@Test
+void testUpdateRule() {
+    Optional<Rule> emptyResult = Optional.empty();
+    when(ruleRepository.findById(Mockito.<Long>any())).thenReturn(emptyResult);
+    RuleResponse actualUpdateRuleResult = ruleService.updateRule(1L, new RuleRequest());
+    verify(ruleRepository).findById(Mockito.<Long>any());
+    assertEquals("Error", actualUpdateRuleResult.getStatus());
+    assertEquals("Rule not found with ID: 1", actualUpdateRuleResult.getMessage());
+}
     @Test
     void testDeleteRule() {
         Condition condition = new Condition();
         condition.setClauses(new ArrayList<>());
         condition.setId(1L);
         condition.setType("Type");
-
         Rule rule = new Rule();
         rule.setActions(new ArrayList<>());
         rule.setCondition(condition);
@@ -121,7 +121,7 @@ public class RuleServiceTest {
         Condition condition = new Condition();
         condition.setClauses(new ArrayList<>());
         condition.setId(1L);
-        condition.setType("ruleId");
+        condition.setType("Type");
 
         Rule rule = new Rule();
         rule.setActions(new ArrayList<>());
@@ -129,13 +129,11 @@ public class RuleServiceTest {
         rule.setDescription("something");
         rule.setId(1L);
         rule.setRuleId("42");
-
-        ArrayList<Rule> ruleList = new ArrayList<>();
-        ruleList.add(rule);
-        when(ruleRepository.findAll()).thenReturn(ruleList);
-        Object actualEvaluateRulesResult = ruleService.evaluateRules("ruleId",new HashMap<>());
-        verify(ruleRepository).findByRuleId("ruleId");
+        when(ruleRepository.findByRuleId(Mockito.<String>any())).thenReturn(rule);
+        Object actualEvaluateRulesResult = ruleService.evaluateRules("42", new HashMap<>());
+        verify(ruleRepository).findByRuleId(Mockito.<String>any());
         assertEquals("No Rule Matched", ((Map<String, String>) actualEvaluateRulesResult).get("message"));
         assertEquals(1, ((Map<String, String>) actualEvaluateRulesResult).size());
     }
+
 }
