@@ -4,9 +4,9 @@
 spring:
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/postgres
+    url: jdbc:postgresql://localhost:5432/dynamic
     username: postgres
-    password: password
+    password: postgres
 
   jpa:
     show-sql: true
