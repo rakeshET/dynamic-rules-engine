@@ -1,9 +1,12 @@
 package com.edstem.project.service;
+import com.edstem.project.contract.request.RuleAction;
+import com.edstem.project.contract.request.RuleClauses;
 import com.edstem.project.contract.request.RuleCondition;
 import com.edstem.project.contract.request.RuleRequest;
 import com.edstem.project.contract.response.AllRuleResponse;
 import com.edstem.project.contract.response.RuleResponse;
 import com.edstem.project.model.Action;
+import com.edstem.project.model.Clause;
 import com.edstem.project.model.Condition;
 import com.edstem.project.model.Rule;
 import com.edstem.project.repository.RuleRepository;
@@ -38,13 +41,75 @@ class RuleServiceTest {
     private RuleService ruleService;
 
     @Test
-    void testCreateRule() {
-        when(modelMapper.map(Mockito.<Object>any(), Mockito.<Class<Rule>>any()))
-                .thenThrow(new IllegalArgumentException("Success"));
-        RuleResponse actualCreateRuleResult = ruleService.createRule(new RuleRequest());
-        verify(modelMapper).map(Mockito.<Object>any(), Mockito.<Class<Rule>>any());
-        assertEquals("Error", actualCreateRuleResult.getStatus());
-        assertEquals("Failed to create the rule: Success", actualCreateRuleResult.getMessage());
+    public void testCreateRuleSuccess() {
+
+        RuleClauses clause = new RuleClauses();
+        clause.setOperation("EQUALS");
+        clause.setField("customer.status");
+        clause.setValue("VIP");
+        List<RuleClauses> clauses = List.of(clause);
+
+        RuleCondition ruleCondition = new RuleCondition();
+        ruleCondition.setType("AND");
+        ruleCondition.setClauses(clauses);
+
+        RuleAction ruleAction = new RuleAction();
+        ruleAction.setActionType("DISCOUNT");
+        ruleAction.setActionValue(Map.of("discountPercent", "10"));
+        List<RuleAction> ruleActions=List.of(ruleAction);
+
+        RuleRequest request = new RuleRequest();
+        request.setRuleId("discountForVIP");
+        request.setDescription("Apply a 10% discount for VIP customers on their order");
+        request.setCondition(ruleCondition);
+        request.setActions(ruleActions);
+
+        Clause clause1 = new Clause();
+        clause1.setOperation("EQUALS");
+        clause1.setField("customer.status");
+        clause1.setValue("VIP");
+        List<Clause> clauses1 = List.of(clause1);
+
+        Condition condition = new Condition();
+        condition.setType("AND");
+        condition.setClauses(clauses1);
+
+        Action action = new Action();
+        action.setActionType("DISCOUNT");
+        action.setActionValue(Map.of("discountPercent", "10"));
+        List<Action> actions=List.of(action);
+
+        Rule rule = new Rule();
+
+        rule.setRuleId(request.getRuleId());
+        rule.setDescription(request.getDescription());
+        rule.setCondition(condition);
+        rule.setActions(actions);
+
+        when(modelMapper.map(request, Rule.class)).thenReturn(rule);
+        when(ruleRepository.save(rule)).thenReturn(rule);
+
+        RuleResponse response = ruleService.createRule(request);
+
+        assertEquals("Success", response.getStatus());
+        assertEquals("Rule created successfully", response.getMessage());
+        verify(modelMapper, times(1)).map(request, Rule.class);
+        verify(ruleRepository, times(1)).save(rule);
+    }
+
+    @Test
+    public void testCreateRuleFailure() {
+
+        RuleRequest request = new RuleRequest();
+        when(modelMapper.map(request, Rule.class)).thenThrow(new RuntimeException("Simulating an exception"));
+        RuleResponse response = ruleService.createRule(request);
+
+
+        assertEquals("Error", response.getStatus());
+        assertEquals("Failed to create the rule: Simulating an exception", response.getMessage());
+
+        verify(modelMapper, times(1)).map(request, Rule.class);
+        verify(ruleRepository, never()).save(any());
     }
     @Test
     void testGetAllRules() {
