@@ -49,7 +49,7 @@ public class RuleControllerTest {
         ruleRequest.setId(1L);
         ruleRequest.setRuleId("42");
         String content = (new ObjectMapper()).writeValueAsString(ruleRequest);
-        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.post("/v1/rules/admin/create")
+        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.post("/api/rules/create")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(content);
         MockMvcBuilders.standaloneSetup(ruleController)
@@ -65,7 +65,7 @@ public class RuleControllerTest {
     @Test
     void testDeleteRule() throws Exception {
         doNothing().when(ruleService).deleteRule(Mockito.<Long>any());
-        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.delete("/v1/rules/{id}", 1L);
+        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.delete("/api/rules/{id}", 1L);
         MockMvcBuilders.standaloneSetup(ruleController)
                 .build()
                 .perform(requestBuilder)
@@ -89,11 +89,11 @@ public class RuleControllerTest {
         ruleRequest.setId(1L);
         ruleRequest.setRuleId("42");
         String content = (new ObjectMapper()).writeValueAsString(ruleRequest);
-        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.put("/v1/rules/{ruleId}", 1L)
+        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.put("/api/rules/{id}", 1L)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(content);
         ResultActions actualPerformResult = MockMvcBuilders.standaloneSetup(ruleController).build().perform(requestBuilder);
-        actualPerformResult.andExpect(MockMvcResultMatchers.status().is(400))
+        actualPerformResult.andExpect(MockMvcResultMatchers.status().is(200))
                 .andExpect(MockMvcResultMatchers.content().contentType("application/json"))
                 .andExpect(MockMvcResultMatchers.content()
                         .string("{\"status\":\"Status\",\"message\":\"sample message\"}"));
@@ -102,7 +102,7 @@ public class RuleControllerTest {
     @Test
     void testGetAllRules() throws Exception {
         when(ruleService.getAllRules()).thenReturn(new ArrayList<>());
-        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get("/v1/rules/all");
+        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get("/api/rules/all");
         MockMvcBuilders.standaloneSetup(ruleController)
                 .build()
                 .perform(requestBuilder)
